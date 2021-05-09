@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 from math import sqrt
-from math_functions import get_line_equation_parameters
+from additional_functions import apply_stock_splits, given_data_is_long_enough
 from os import path
 
 CURRENT_FILE_DIR = path.dirname(path.realpath(__file__))
@@ -31,8 +31,9 @@ class Wallet():
         self.risk_free_asset_expected_return = 0
         self.risk_assets_weights = []
         self.risk_free_asset_weight = 0
-        self.time_horizon_in_days = 1
-        self.time_horizon_as_a_years_part = self.time_horizon_in_days / 365
+        self.time_horizon_in_days = 500
+        self.n_days_return = 1
+        self.n_days_return_as_a_years_part = self.n_days_return / 365
         self.budget = 100
         self.file_mode_on = False
 
@@ -46,7 +47,9 @@ class Wallet():
         wallet_info += '\n' + f'Your bugdet is {self.budget} USD'
         wallet_info += '\n' + f'Risk free asset year\'s expected return: {self.risk_free_asset_expected_return*100}%'
         wallet_info += '\n' + f'Investor\'s risk function is: U = \u03BC - ({self.k_risk_factor}*\u03C3)'
-        wallet_info += '\n' + f'You will currently calculate the portfolio for stocks\' means and variances from results from the last {self.time_horizon_in_days} days.'
+        wallet_info += '\n' + f'You will currently calculate the portfolio for stocks\' means and variances \
+                                from results from the last {self.time_horizon_in_days} days.'
+        wallet_info += '\n' + f'You will currently calculate the portfolio for calculated {self.n_days_return}-day(s) returns.'
         return wallet_info
 
 
@@ -67,13 +70,15 @@ class Interface():
         self.wallet.file_mode_on = True
 
         wallet_data = pd.read_csv(self.file_name, header=0, sep=";")
-        column_contains_only_numeric_data = wallet_data.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()).tolist()
+        column_contains_only_numeric_data = wallet_data.apply(\
+            lambda s: pd.to_numeric(s, errors='coerce').notnull().all()).tolist()
         if not all(numeric_column is True for numeric_column in column_contains_only_numeric_data):
             log.error('Columns, apart from header, must contain only numeric values!')
             exit(1)
 
         for stock_name in wallet_data.columns:
             self.wallet.stocks.append(Stock(stock_name, wallet_data[stock_name]))
+        self.wallet.time_horizon_in_days = len(self.wallet.stocks[0].pricing_info)
 
     def open_existing_wallet(self):
         while(True):
@@ -137,22 +142,34 @@ class Interface():
 
     def update_risk_free_asset(self):
         while True:
-            self.wallet.risk_free_asset_expected_return = float(input('Enter your risk free asset expected return in percents: ')) / 100
+            self.wallet.risk_free_asset_expected_return = float(input('Enter your risk free asset years\' expected return in percents: ')) / 100
             if (self.wallet.risk_free_asset_expected_return >= 0) and (self.wallet.risk_free_asset_expected_return < 100):
                 log.info('Risk free asset updated successfully.')
                 break
             else:
                 log.error('You entered wrong number, try again.')
 
-    def update_amount_of_days_to_calculations(self):
+    def update_amount_of_days_to_take_data_from(self):
         while True:
-            self.wallet.time_horizon_in_days = int(input('Enter amount of days to calculations: '))
-            if self.wallet.time_horizon_in_days > 0:
+            self.wallet.time_horizon_in_days = int(input('Enter amount of days to take data from: '))
+            if self.wallet.time_horizon_in_days > 0 and \
+               given_data_is_long_enough(self.wallet.time_horizon_in_days, self.wallet.stocks, self.file_mode_on):
                 log.info('Time horizon updated successfully.')
-                self.wallet.time_horizon_as_a_years_part = self.wallet.time_horizon_in_days / 365
                 break
             else:
-                log.error('You entered wrong number, try again.')
+                log.error('Value is negative or too big for given data, try again.')
+
+    def update_return_calculation(self):
+        while True:
+            self.wallet.n_days_return = int(input('You want to calculate portfolio for n-days return. Enter n: '))
+            if self.wallet.n_days_return > 0 and \
+               given_data_is_long_enough(self.wallet.n_days_return) and \
+               self.wallet.time_horizon_in_days >= self.wallet.n_days_return:
+                log.info('Time horizon updated successfully.')
+                self.wallet.n_days_return_as_a_years_part = self.wallet.n_days_return / 365
+                break
+            else:
+                log.error('Value is negative or too big for given data, try again.')
 
     def update_budget(self):
         while True:
@@ -163,71 +180,68 @@ class Interface():
             else:
                 log.error('You entered wrong number, try again.')
 
-    def apply_stock_splits(self, adj_close, stock_splits):
-        if stock_splits != 0:
-            return adj_close * (1 / (1 * stock_splits))
-        else:
-            return adj_close
-
-    def get_stocks_daily_returns(self):
+    def get_stocks_returns(self):
         for stock in self.wallet.stocks:
             if self.file_mode_on:
                 stock_info = stock.pricing_info
             else:
-                stock_info = yf.Ticker(stock.info['symbol']).history(period=f"{self.wallet.time_horizon_in_days}d")[['Close', 'Dividends', 'Stock Splits']]
+                stock_info = \
+                    yf.Ticker(stock.info['symbol'])\
+                    .history(period=f"{self.wallet.time_horizon_in_days}d")\
+                    [['Close', 'Dividends', 'Stock Splits']]
             stock_info['Adj Close'] = stock_info['Close'] - stock_info['Dividends']
-            stock_info['Adj Close'] = stock_info.apply(lambda x: self.apply_stock_splits(x['Adj Close'], x['Stock Splits']), axis=1)
-            self.wallet.stocks_returns[stock.info['symbol']] = stock_info['Adj Close'].pct_change().apply(lambda x: np.log(1 + x))
+            stock_info['Adj Close'] = \
+                stock_info.apply(lambda x: apply_stock_splits(x['Adj Close'], x['Stock Splits']), axis=1)
+            self.wallet.stocks_returns[stock.info['symbol']] = \
+                stock_info['Adj Close'].\
+                rolling(self.wallet.n_days_return).\
+                mean().dropna().pct_change()*100
 
     def calculate_z_matrix(self):
-        # jestesmy nie w procentach ale w realnych liczbach, wszedzie!
-        #czy tu mnożyć przez time horizon
-        avg_returns_matrix = (self.wallet.stocks_returns.mean() - (self.wallet.risk_free_asset_expected_return * self.wallet.time_horizon_as_a_years_part)).to_numpy()[np.newaxis].T
-        # zwrocic uwage jakie tu jednostki wychodza w cov matrix (kwadraty procentow)
-        # self.wallet.cov_matrix = np.array([[0.36,0.2,0],[0.2,1,-0.6],[0,-0.6,2.25]])
-        self.wallet.cov_matrix = (self.wallet.stocks_returns.cov()).to_numpy()
+        avg_returns_matrix = \
+            (self.wallet.stocks_returns.mean() - \
+             self.wallet.risk_free_asset_expected_return_in_given_time_horizon).\
+             to_numpy()[np.newaxis].T
+        self.wallet.cov_matrix = self.wallet.stocks_returns.cov().to_numpy() * np.sqrt(self.wallet.n_days_return)
         z_matrix = np.dot(np.linalg.inv(self.wallet.cov_matrix), avg_returns_matrix)
         return z_matrix
 
     def calculate_tangent_portfolio_weights(self):
-        self.get_stocks_daily_returns()
-        log.info('Daily returns calculated, now calculating tangent portfolio weights..')
+        self.get_stocks_returns()
+        log.info('Returns calculated, now calculating tangent portfolio weights..')
         list_of_z = [item for sublist in self.calculate_z_matrix().tolist() for item in sublist]
         self.wallet.risk_assets_weights = [z / sum(list_of_z) for z in list_of_z]
         log.info('Tangent portfolio weights calculated, now calculating optimal portfolio weights..')
 
-    # def calculate_tangent_portfolio_std_dev(self):
-    #     tangent_portfolio_variation = 0
-    #     for i, risk_assets_weight_i in enumerate(self.wallet.risk_assets_weights):
-    #         for j, risk_assets_weight_j in enumerate(self.wallet.risk_assets_weights):
-    #             tangent_portfolio_variation += risk_assets_weight_i * risk_assets_weight_j * self.wallet.cov_matrix[i][j]
+    def calculate_tangent_portfolio_std_dev(self):
+        tangent_portfolio_variation = 0
+        for i, risk_assets_weight_i in enumerate(self.wallet.risk_assets_weights):
+            for j, risk_assets_weight_j in enumerate(self.wallet.risk_assets_weights):
+                tangent_portfolio_variation += risk_assets_weight_i * risk_assets_weight_j * self.wallet.cov_matrix[i][j]
 
-    #     return sqrt(tangent_portfolio_variation)
+        return sqrt(tangent_portfolio_variation)
 
-    # def get_efficient_porfolios_line_equation_parameters(self):
-    #     risk_free_point = (0, self.wallet.risk_free_asset_expected_return * self.wallet.time_horizon_as_a_years_part)
-    #     #czy tu mnożyć przez time horizon
-    #     avg_returns_list = (self.wallet.stocks_returns.mean()).tolist()
-    #     self.wallet.tangent_portfolio_mean = sum([y * mu for y, mu in zip(self.wallet.risk_assets_weights, avg_returns_list)])
-    #     self.wallet.tangent_portfolio_std_dev = self.calculate_tangent_portfolio_std_dev()
-    #     self.wallet.efficient_porfolios_line_equation_a, self.wallet.efficient_porfolios_line_equation_b = \
-    #         get_line_equation_parameters(risk_free_point, (self.wallet.tangent_portfolio_std_dev, self.wallet.tangent_portfolio_mean))
-        # y = self.efficient_porfolios_line_equation_a*x + self.efficient_porfolios_line_equation_b
+    def get_tangent_portfolio_parameters(self):
+        self.wallet.tangent_portfolio_std_dev = self.calculate_tangent_portfolio_std_dev()
+        avg_returns_list = self.wallet.stocks_returns.mean().tolist()
+        self.wallet.tangent_portfolio_expected_return = sum([y * mu for y, mu in zip(self.wallet.risk_assets_weights, avg_returns_list)])
+
+    def get_optimal_portfolio_parameters(self):
+        self.wallet.optimal_portfolio_A = (self.wallet.tangent_portfolio_std_dev ** 2) / \
+            ((self.wallet.risk_free_asset_expected_return_in_given_time_horizon - self.wallet.tangent_portfolio_expected_return) ** 2)
+        self.wallet.optimal_portfolio_std_dev = sqrt(1 / (4 * (self.wallet.k_risk_factor ** 2) * self.wallet.optimal_portfolio_A))
+        self.wallet.optimal_portfolio_expected_return = self.wallet.risk_free_asset_expected_return_in_given_time_horizon + \
+            (1 / (2 * self.wallet.k_risk_factor * self.wallet.optimal_portfolio_A))
 
     def calculate_optimal_portfolio_weights(self):
-        #zamiast tego
-        #policz A, mi zero i sigma zero i k masz i podstaw do wzoru na mi i sigma i bedzie te optymalne
-        self.get_optimal_porfolios_parameters()
-        # self.get_efficient_porfolios_line_equation_parameters()
-        # self.wallet.optimal_portfolio_std_dev = (self.wallet.efficient_porfolios_line_equation_a) / (self.wallet.k_risk_factor * 2)
-        # self.wallet.optimal_portfolio_mean = (self.wallet.efficient_porfolios_line_equation_a * self.wallet.optimal_portfolio_std_dev) \
-        #     + self.wallet.efficient_porfolios_line_equation_b
-        # self.wallet.risk_free_asset_weight = (self.wallet.optimal_portfolio_mean - self.wallet.tangent_portfolio_mean) / \
-        #     ((self.wallet.risk_free_asset_expected_return * self.wallet.time_horizon_as_a_years_part) - self.wallet.tangent_portfolio_mean)
+        self.get_tangent_portfolio_parameters()
+        self.get_optimal_portfolio_parameters()
+        self.wallet.risk_free_asset_weight = (self.wallet.optimal_portfolio_expected_return - self.wallet.tangent_portfolio_expected_return) / \
+            (self.wallet.risk_free_asset_expected_return_in_given_time_horizon - self.wallet.tangent_portfolio_expected_return)
         self.wallet.optimal_portfolio_risk_assets_weight = 1 - self.wallet.risk_free_asset_weight
 
     def show_budget_calculations(self):
-        log.info('That means, that you should invest your money this way:')
+        log.info('That means, that you should invest your money this way in risk assets:')
         risk_assets_investments = [i * self.wallet.optimal_portfolio_risk_assets_weight * self.wallet.budget for i in self.wallet.risk_assets_weights]
         risk_free_asset_investment = self.wallet.risk_free_asset_weight * self.wallet.budget
         for risk_asset_investment, stock in zip(risk_assets_investments, self.wallet.stocks):
@@ -247,10 +261,12 @@ class Interface():
         print(self.wallet.cov_matrix)
 
     def show_optimal_portfolio_weights(self):
+        self.wallet.risk_free_asset_expected_return_in_given_time_horizon = \
+            self.wallet.risk_free_asset_expected_return * self.wallet.n_days_return_as_a_years_part
         self.calculate_tangent_portfolio_weights()
-        self.calculate_optimal_portfolio_weights()
         self.show_risk_assets_weights()
         self.show_covariation_matrix()
+        self.calculate_optimal_portfolio_weights()
         log.info(f'Risk assets weight is {self.wallet.optimal_portfolio_risk_assets_weight:.2f}')
         log.info(f'Risk free asset weight is {self.wallet.risk_free_asset_weight:.2f}')
         self.show_budget_calculations()
@@ -294,11 +310,12 @@ class Interface():
         wallet_menu['2'] = 'Remove stocks'
         wallet_menu['3'] = 'Update risk-free asset'
         wallet_menu['4'] = 'Update risk factor'
-        wallet_menu['5'] = 'Update amount of days to calculations'
-        wallet_menu['6'] = 'Update budget'
-        wallet_menu['7'] = 'Show optimal portfolio weights'
-        wallet_menu['8'] = 'Save wallet to file'
-        wallet_menu['9'] = 'Exit'
+        wallet_menu['5'] = 'Update amount of days to take data from'
+        wallet_menu['6'] = 'Update days return'
+        wallet_menu['7'] = 'Update budget'
+        wallet_menu['8'] = 'Show optimal portfolio weights'
+        wallet_menu['9'] = 'Save wallet to file'
+        wallet_menu['10'] = 'Exit'
 
         while(True):
             print()
@@ -318,14 +335,16 @@ class Interface():
             elif selection == '4':
                 self.update_risk_factor()
             elif selection == '5':
-                self.update_amount_of_days_to_calculations()
+                self.update_amount_of_days_to_take_data_from()
             elif selection == '6':
-                self.update_budget()
+                self.update_return_calculation()
             elif selection == '7':
-                self.show_optimal_portfolio_weights()
+                self.update_budget()
             elif selection == '8':
-                self.save_wallet_to_file()
+                self.show_optimal_portfolio_weights()
             elif selection == '9':
+                self.save_wallet_to_file()
+            elif selection == '10':
                 self.main_menu()
             else:
                 log.error('Unknown Option Selected!')
@@ -335,11 +354,12 @@ class Interface():
         wallet_menu['0'] = 'Show wallet'
         wallet_menu['1'] = 'Update risk-free asset'
         wallet_menu['2'] = 'Update risk factor'
-        wallet_menu['3'] = 'Update amount of days to calculations'
-        wallet_menu['4'] = 'Update budget'
-        wallet_menu['5'] = 'Show optimal portfolio weights'
-        wallet_menu['6'] = 'Save wallet to file'
-        wallet_menu['7'] = 'Exit'
+        wallet_menu['3'] = 'Update amount of days to take data from'
+        wallet_menu['4'] = 'Update days return'
+        wallet_menu['5'] = 'Update budget'
+        wallet_menu['6'] = 'Show optimal portfolio weights'
+        wallet_menu['7'] = 'Save wallet to file'
+        wallet_menu['8'] = 'Exit'
 
         while(True):
             print()
@@ -355,14 +375,16 @@ class Interface():
             elif selection == '2':
                 self.update_risk_factor()
             elif selection == '3':
-                self.update_amount_of_days_to_calculations()
+                self.update_amount_of_days_to_take_data_from()
             elif selection == '4':
-                self.update_budget()
+                self.update_return_calculation()
             elif selection == '5':
-                self.show_optimal_portfolio_weights()
+                self.update_budget()
             elif selection == '6':
-                self.save_wallet_to_file()
+                self.show_optimal_portfolio_weights()
             elif selection == '7':
+                self.save_wallet_to_file()
+            elif selection == '8':
                 exit(0)
             else:
                 log.error('Unknown Option Selected!')
