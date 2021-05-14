@@ -918,11 +918,37 @@ Funkcja \code{save\_wallet\_to\_file} umożliwia zapis aktualnie otwartego portf
 \end{figure}
 \chapter{Ocena działania programu}
 
-Test działania 
-aplikacji w rzeczywistości - (np zebranie wyników, inwestycja “na sucho” i analiza po miesiącu.)
+W tym rozdziale stworzony zostanie portfel zawierający dziesięć aktywów ryzykownych oraz jedno aktywo wolne od ryzyka. Za pomocą zmieniania danych w portfelu takich jak:
+
+\begin{itemize}
+	\item współczynnik awersji do ryzyka inwestora,
+	\item średnia cena zamknięcie liczona z \textit{n} dni,
+	\item stopa procentowa zwrotu z inwestycji w aktywo wolne od ryzyka,
+	\item ewentualna zmiana aktywa ryzykownego,
+\end{itemize}
+
+stworzymy kilka portfeli - wyniki zostaną przedstawione w tabelach oraz omówione. Portfele zostaną stworzone w programie działającym w trybie \textit{API}.
+
+Na początek pokrótce przedstawmy aktywa ryzykowne, które będą znajdować się w portfelu - w nawiasach znajdują się symbole, pod którymi można znaleźć te aktywa na stronie \textit{Yahoo Finance} i w takiej formie aktywa te będą przedstawiane w tabelach:
+
+\begin{itemize}
+	\item \textit{\textbf{Tesla, Inc. (TSLA)}} - amerykański producent elektrycznych samochodów osobowych, SUV-ów, pickupów, samochodów sportowych oraz ciągników siodłowych\cite{tesla},
+	\item \textit{\textbf{British American Tobacco p.l.c. (BTI)}} - brytyjskie przedsiębiorstwo zajmujące się wyrobem oraz sprzedażą produktów tytoniowych,
+	\item \textit{\textbf{Facebook, Inc. (FB)}} - amerykański konglomerat technologiczny z siedzibą w Menlo Park w Kalifornii\cite{facebook},
+	\item \textit{\textbf{Netflix, Inc. (NFLX)}} - telewizja internetowa, oferująca za zryczałtowaną opłatą dostęp do filmów i seriali poprzez media strumieniowe\cite{netflix},
+	\item \textit{\textbf{Tilray, Inc. (TLRY)}} - kanadyjska firma farmaceutyczna i konopna\cite{tilray},
+	\item \textit{\textbf{Adidas AG (ADDYY)}} - niemieckie przedsiębiorstwo produkujące obuwie i odzież sportową\cite{adidas},
+	\item \textit{\textbf{Nokia Corporation (NOK)}} - fińskie przedsiębiorstwo zajmujące się technologiami telekomunikacyjnymi\cite{nokia},
+	\item \textit{\textbf{Airbnb, Inc. (ABNB)}} - serwis internetowy umożliwiający wynajem lokali od osób prywatnych\cite{airbnb},
+	\item \textit{\textbf{Spotify Technology S.A. (SPOT)}} - szwedzki serwis strumieniowy oferujący dostęp do muzyki oraz podcastów na licencji freemium\cite{spotify}.
+	\item \textit{\textbf{American International Group, Inc. (AIG)}} - jedno z największych na świecie przedsiębiorstw ubezpieczeniowych\cite{aig}.
+\end{itemize}
+
 
 
 \chapter{Wnioski oraz plany rozwoju aplikacji}
+
+W przyszłości planowane jest dodanie do programu możliwości dodania oraz usunięcia spółki w trybie \textit{file-mode}, oraz zaimplementowanie możliwości ukazania wyników w postaci wykresu.
 
 \appendixpage
 \appendix
@@ -941,7 +967,12 @@ aplikacji w rzeczywistości - (np zebranie wyników, inwestycja “na sucho” i
 
 \bibliographystyle{dyplom1}
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{19}
+	\bibitem{wikipage}
+	Wikipedia,
+	\emph{Teoria Portfelowa},
+	https://pl.wikipedia.org/wiki/Teoria\_portfelowa
+
 	\bibitem{random_variable}
 	Wikipedia,
 	\emph{Zmienna losowa},
@@ -952,31 +983,71 @@ aplikacji w rzeczywistości - (np zebranie wyników, inwestycja “na sucho” i
 	\emph{Wartość oczekiwana},
 	https://pl.wikipedia.org/wiki/Wartość\_oczekiwana
 	
-	\bibitem{wikipage}
-	Wikipedia,
-	\emph{Teoria Portfelowa}.
-	https://pl.wikipedia.org/wiki/Teoria\_portfelowa
-	
 	\bibitem{book}	
 	Michael A. Bean,
 	\emph{Probability: The Science of Uncertainty: with Applications to Investments, Insurance, and Engineering}.
 	American Mathematical Society, 2001.
-	
-	\bibitem{lagrange}
-	Uniwersytet Warszawski,
-	\emph{Ekstrema Warunkowe i Mnożniki Lagrange'a}.
-	http://dydmat.mimuw.edu.pl/analiza-matematyczna-ii/ekstrema-warunkowe-i-mnozniki-lagrangea
 	
 	\bibitem{holton}
 	Glyn Holton,
 	\emph{Portfolio Theory}.
 	https://www.glynholton.com/notes/portfolio\_theory/,
 	2013
+
+	\bibitem{lagrange}
+	Uniwersytet Warszawski,
+	\emph{Ekstrema Warunkowe i Mnożniki Lagrange'a}.
+	http://dydmat.mimuw.edu.pl/analiza-matematyczna-ii/ekstrema-warunkowe-i-mnozniki-lagrangea
 	
 	\bibitem{pythonlist}
 	Python Software Foundation,
 	\emph{Documentation -> The Python Tutorial -> Data Structures}
 	https://docs.python.org/3/tutorial/datastructures.html
+
+	\bibitem{tesla}
+	Wikipedia,
+	\emph{Tesla (amerykańskie przedsiębiorstwo)},\\
+	https://pl.wikipedia.org/wiki/Tesla\_(ameryka\%C5\%84skie\_przedsi\%C4\%99biorstwo)
+	
+	\bibitem{facebook}
+	Wikipedia,
+	\emph{Facebook (przedsiębiorstwo)},\\
+	https://pl.wikipedia.org/wiki/Facebook\_(przedsi\%C4\%99biorstwo)
+	
+	\bibitem{netflix}
+	Wikipedia,
+	\emph{Netflix},
+	https://pl.wikipedia.org/wiki/Netflix
+	
+	\bibitem{tilray}
+	Wikipedia,
+	\emph{Tilray},
+	https://en.wikipedia.org/wiki/Tilray
+	
+	\bibitem{adidas}
+	Wikipedia,
+	\emph{Adidas},
+	https://pl.wikipedia.org/wiki/Adidas
+	
+	\bibitem{nokia}
+	Wikipedia,
+	\emph{Nokia},
+	https://pl.wikipedia.org/wiki/Nokia
+
+	\bibitem{airbnb}
+	Wikipedia,
+	\emph{Airbnb},	
+	https://pl.wikipedia.org/wiki/Airbnb
+	
+	\bibitem{spotify}
+	Wikipedia,
+	\emph{Spotify},
+	https://pl.wikipedia.org/wiki/Spotify
+
+	\bibitem{aig}
+	Wikipedia,
+	\emph{American International Group},\\
+	https://pl.wikipedia.org/wiki/American\_International\_Group
 	
 \end{thebibliography}
 \begin{comment}
