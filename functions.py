@@ -98,7 +98,7 @@ class Interface():
                 log.error('Path does not exist!')
 
     def save_wallet_to_file(self):
-        while(True):
+        while True:
             wallet_path = input('Write path to file where you want to save your wallet: ')
             if path.exists(wallet_path):
                 choice = input('This file already exist. Do you want to overwrite your wallet? [y/n] ')
@@ -142,7 +142,8 @@ class Interface():
 
     def update_risk_free_asset(self):
         while True:
-            self.wallet.risk_free_asset_expected_return = float(input('Enter your risk free asset years\' expected return in percents: ')) / 100
+            self.wallet.risk_free_asset_expected_return = float(input('Enter your risk free \
+                asset years\' expected return in percents: ')) / 100
             if (self.wallet.risk_free_asset_expected_return >= 0) and (self.wallet.risk_free_asset_expected_return < 100):
                 log.info('Risk free asset updated successfully.')
                 break
@@ -163,7 +164,7 @@ class Interface():
         while True:
             self.wallet.n_days_return = int(input('You want to calculate portfolio for n-days return. Enter n: '))
             if self.wallet.n_days_return > 0 and \
-               given_data_is_long_enough(self.wallet.n_days_return) and \
+               given_data_is_long_enough(self.wallet.time_horizon_in_days, self.wallet.stocks, self.file_mode_on) and \
                self.wallet.time_horizon_in_days >= self.wallet.n_days_return:
                 log.info('Time horizon updated successfully.')
                 self.wallet.n_days_return_as_a_years_part = self.wallet.n_days_return / 365
@@ -236,7 +237,8 @@ class Interface():
     def calculate_optimal_portfolio_weights(self):
         self.get_tangent_portfolio_parameters()
         self.get_optimal_portfolio_parameters()
-        self.wallet.risk_free_asset_weight = (self.wallet.optimal_portfolio_expected_return - self.wallet.tangent_portfolio_expected_return) / \
+        self.wallet.risk_free_asset_weight = \
+            (self.wallet.optimal_portfolio_expected_return - self.wallet.tangent_portfolio_expected_return) / \
             (self.wallet.risk_free_asset_expected_return_in_given_time_horizon - self.wallet.tangent_portfolio_expected_return)
         self.wallet.optimal_portfolio_risk_assets_weight = 1 - self.wallet.risk_free_asset_weight
 

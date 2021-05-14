@@ -561,7 +561,7 @@ W przypadku zmieniającej się stopy zwrotu z aktywa wolnego od ryzyka, podobnie
 	\item Opcja zapisu stanu portfela do pliku oraz jego wczytanie z pliku.
 	\item Umożliwienie działania programu w dwóch trybach:
 	\begin{itemize}
-		\item Dane o aktywach znajdujących się w portfelu pobierane z internetu (za pomocą Yahoo API)
+		\item Dane o aktywach znajdujących się w portfelu pobierane z internetu (za pomocą \textit{Yahoo Finance API})
 		\item Dane o aktywach znajdujących się w portfelu pobierane z pliku tekstowego
 	\end{itemize}
 	\item Możliwość ustalenia budżetu użytkownika
@@ -574,28 +574,28 @@ W przypadku zmieniającej się stopy zwrotu z aktywa wolnego od ryzyka, podobnie
 
 \chapter{Prezentacja oraz opis aplikacji}
 
-Na podstawie założeń projektowych powstało narzędzie wyznaczające optymalny portfel inwestora, jego nazwa to \code{the-wallet}. Pełen kod programu został umieszczony w dodatku A, jest on również dostępny do pobrania na stronie GitHub. Narzędzie zostało napisane w języku Python, w zgodności z wersją 3.7.8. Składa się ono z trzech plików: \code{main.py}, \code{functions.py} oraz \code{additional\_functions.py}, które zostaną omówione odpowiednich podrozdziałach. Na początek zostanie zaprezentowane działanie programu.
+Na podstawie założeń projektowych powstało narzędzie wyznaczające optymalny portfel inwestora, jego nazwa to \code{the-wallet}. Pełen kod programu został umieszczony w dodatku A, jest on również dostępny do pobrania na stronie GitHub. Narzędzie zostało napisane w języku Python, w zgodności z wersją 3.7.8. Składa się ono z trzech plików: \code{main.py}, \code{functions.py} oraz \code{additional\_functions.py}, których funkcjonalność zostanie omówiona odpowiednich podrozdziałach tej części pracy. Na początek zostanie zaprezentowane działanie programu.
 
 \section{Przykładowe uruchomienie programu w trybie API}
 
-Program zgodnie z założeniami projektowymi można uruchomić w dwóch trybach - w tym rozdziale omówimy tryb pobierania danych przez API (dalej nazywanego w skrócie trybem API). Pobierane dane są danymi rzeczywistymi, otrzymywanymi ze strony \textit{Yahoo Finance}. Aby dokonać uruchomienia programu w trybie API znajdując się w jego katalogu roboczym należy wywołać komendę:
-\mint{bash}{python3 main.py}, po udanym uruchomieniu programu ukazuje on użytkownikowi główne menu:
+Program zgodnie z założeniami projektowymi można uruchomić w dwóch trybach - w tym podrozdziale zostanie omówiony tryb pobierania danych przez API (dalej nazywanego w skrócie trybem API). Pobierane dane są danymi rzeczywistymi - możemy znaleźć je na stronie \textit{Yahoo Finance}. Aby dokonać uruchomienia programu w trybie API znajdując się w katalogu roboczym narzędzia należy wywołać komendę:
+\mint{bash}{python3 main.py}, po udanym uruchomieniu programu ukazuje on użytkownikowi główne menu. Poprzez wpisanie odpowiedniego numeru dokonujemy wyboru interesującej nas funkcji.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.44]{interfejs1}
 	\caption{Główne menu programu}
 \end{figure}
-Załóżmy, że chcemy stworzyć nowy portfel. W tym celu wybieramy opcję numer 2, które powoduje przejście do menu portfela, zostało to uwiecznione na rysunku 5.2.
-
+Załóżmy, że chcemy stworzyć nowy portfel. W tym celu wybieramy opcję numer 2, która powoduje przejście do menu portfela (zostało to uwiecznione na rysunku 5.2).
+\newpage
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.44]{interfejs2}
 	\caption{Menu portfela}
 \end{figure}
-Nasz portfel jest w tym momencie pusty - nie posiadamy żadnych aktywów ryzykownych ani aktywa wolnego od ryzyka. Dodajmy dwa aktywa ryzykowne - niech będą to aktywa Apple'a oraz Facebooka. Aby dodać aktywa, należy podać ich symbole po wybraniu opcji numer 1. Po sprawdzeniu na stronie \textit{https://finance.yahoo.com/} dowiadujemy się, że są to odpowiednio AAPL i FB, podajemy więc takie właśnie symbole. Wynik operacji widoczny jest na rysunkach 5.3a oraz 5.3b.
-\newpage
-\begin{figure}
+Nasz portfel jest w tym momencie pusty - nie posiadamy żadnych aktywów ryzykownych ani aktywa wolnego od ryzyka. Dodajmy dwa aktywa ryzykowne - niech będą to aktywa Apple'a oraz Facebooka. Aby dodać aktywa, należy podać ich symbole po wybraniu opcji numer 1. Po sprawdzeniu na stronie \textit{https://finance.yahoo.com/} możemy zobaczyć, że symbolami tych aktyw są odpowiednio kody AAPL i FB. Wynik operacji dodania aktywów do portfela widoczny jest na rysunkach 5.3a oraz 5.3b.
+
+\begin{figure}[hb]
 	\centering
 	\subfloat[Dodanie do portfela aktyw firmy Apple]{\label{aapl}
 	\includegraphics[width=0.4\textwidth]{apple}}
@@ -605,7 +605,7 @@ Nasz portfel jest w tym momencie pusty - nie posiadamy żadnych aktywów ryzykow
 	\caption{Dodanie aktyw ryzykownych do portfela}
 \end{figure}
 
-Następnym krokiem będzie dodanie aktywa wolnego od ryzyka - w tym celu należy wybrać opcję 3 i podać roczną stopę zwrotu takiego aktywa - w tym przypadku niech będzie to $2\%$:
+Następnym krokiem w tworzeniu portfela będzie dodanie aktywa wolnego od ryzyka - w tym celu należy wybrać opcję 3 i podać roczną stopę zwrotu takiego aktywa - w tym przypadku niech będzie to $2\%$.
 \newpage
 \begin{figure}[ht]
 	\centering
@@ -613,7 +613,7 @@ Następnym krokiem będzie dodanie aktywa wolnego od ryzyka - w tym celu należy
 	\caption{Dodanie do portfela aktywa wolnego od ryzyka}
 \end{figure}
 
-Portfel musi posiadać zdefiniowaną funkcję użyteczności awersji od ryzyka. W tym celu po wybraniu opcji 4 podajemy współczynnik $k$ awersji do ryzyka inwestora - niech wynosi on $0,1$:
+Dla poprawnego działania narzędzia portfel musi posiadać zdefiniowaną funkcję użyteczności awersji od ryzyka. W tym celu po wybraniu opcji 4 podajemy współczynnik $k$ awersji do ryzyka inwestora - niech wynosi on $k=0,1$.
 
 \begin{figure}[ht]
 	\centering
@@ -621,23 +621,22 @@ Portfel musi posiadać zdefiniowaną funkcję użyteczności awersji od ryzyka. 
 	\caption{Dodanie do portfela współczynnika $k$ awersji do ryzyka inwestora}
 \end{figure}
 
-Pozostałe zmienne w portfelu mają swoje wartości domyślne, na potrzeby obecnego uruchomienia nie będziemy ich zmieniać:
+Pozostałe zmienialne parametry w portfelu mają swoje następujące wartości domyślne, nadawane w momencie tworzenia portfela:
 
 \begin{itemize}
 	\item zakres dni z których rozpatrujemy dane wynosi 500 dni (w trybie API),
 	\item domyślna średnia cena aktywów jest średnią jednodniową,
 	\item budżet wynosi 100 USD,
 \end{itemize}
-
-Sprawdźmy jak wygląda w tej chwili portfel. Umożliwia to kryjąca się pod numerem $0$ opcja \code{Show wallet}. Gotowy portfel ukazano na rysunku 5.6.
-
+Na potrzeby obecnego uruchomienia nie będziemy ich zmieniać. Sprawdźmy jak wygląda w tej chwili portfel. Umożliwia to kryjąca się pod numerem $0$ opcja \code{Show wallet}. Gotowy portfel ukazano na rysunku 5.6.
+\newpage
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.3]{showwalletapi}
-	\caption{Pokazanie gotowego portfela w trybie API}
+	\caption{Gotowy portfel w trybie API}
 \end{figure}
 
-Zobaczmy, jak wygląda portfel optymalny dla wprowadzonych danych, w tym celu używamy opcji \code{Show optimal portfolio weights}. Nie będziemy w tym momencie interpretować tego wyniku (na interpretacje przeznaczony jest rozdział szósty tej pracy). Wyniki przedstawiono na rysunku 5.7.
+Zobaczmy, jak wygląda portfel optymalny dla wprowadzonych danych - w tym celu używamy opcji \code{Show optimal portfolio weights}. Nie będziemy w tym momencie interpretować tego wyniku (na interpretacje przeznaczony jest rozdział szósty tej pracy). Wyniki przedstawiono na rysunku 5.7.
 
 \begin{figure}[ht]
 	\centering
@@ -648,7 +647,7 @@ Zobaczmy, jak wygląda portfel optymalny dla wprowadzonych danych, w tym celu u�
 
 \section{Przykładowe uruchomienie programu w trybie file-mode}
 
-Uruchomienie w trybie pobierania danych z pliku tekstowego (dalej nazywanego w skrócie \textit{file-mode}) wymaga od nas odpowiedniego przygotowania takowego pliku. Przykład odpowiednio sformatowania został przedstawiony w poniższym bloku kodu:\newpage
+Uruchomienie w trybie pobierania danych z pliku tekstowego (dalej nazywanego w skrócie \textit{file-mode}) wymaga od nas odpowiedniego przygotowania takowego pliku. Przykład odpowiednio sformatowania został przedstawiony w poniższym bloku kodu:
 \begin{minted}{bash}
 	Stock1;Stock2;Stock3
 	2.22;2.34;3.71
@@ -660,15 +659,15 @@ Uruchomienie w trybie pobierania danych z pliku tekstowego (dalej nazywanego w s
 	2.26;2.41;3.84
 	2.22;2.40;3.87
 \end{minted}
-W pierwszym wierszu należy podać oddzielone średnikami nazwy spółek, których ceny będą rozpatrywane w narzędziu. Następnie, w kolejnych wierszach należy podawać chronologicznie od najstarszego do najnowszego dzienne kursy zamknięcia dla spółek, tworząc w ten sposób swego rodzaju tabelę. Komenda uruchomienia programu w opisywanym trybie wygląda następująco:
+W pierwszym wierszu należy podać oddzielone średnikami nazwy spółek, których kursy zamknięcia będą rozpatrywane w narzędziu. Następnie, w kolejnych wierszach należy podawać chronologicznie od najstarszego do najnowszego dzienne kursy zamknięcia dla spółek, tworząc w ten sposób swego rodzaju tabelę. Komenda uruchomienia programu w opisywanym trybie wygląda następująco:
 \mint{bash}{python3 main.py -f dane.txt},
-gdzie dane.txt jest naszym plikiem z zapisanymi danymi. Oczywiście nazwa \code{dane.txt} jest przykładowa - plik może nazywać się dowolnie i mieć dowolne rozszerzenie.
-Na potrzeby przykładu przygotowano dane, które zapisano do pliku tekstowego, jak ukazano na rysunku 5.8. 
+gdzie dane.txt jest ścieżką do plikiu z zapisanymi danymi. Oczywiście nazwa \code{dane.txt} jest przykładowa - plik może nazywać się dowolnie i mieć dowolne rozszerzenie.
+Na potrzeby przykładu przygotowano dane, które zapisano do pliku tekstowego o nazwie \code{mydata.txt}, jak ukazano na rysunku 5.8. 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.4]{catmydata}
-	\caption{Przygotowany plik tekstowy do uruchomienia w trybie \textit{file-mode}}
+	\caption{Przygotowany plik tekstowy \code{mydata.txt} do uruchomienia w trybie \textit{file-mode}}
 \end{figure}
 
 Następnie uruchamiamy program - jak możemy zauważyć na rysunku 5.9, jesteśmy przywitani komunikatem o tym, że narzędzie działa w trybie \textit{file-mode} i od razu zostajemy przeniesieni do menu portfela.
@@ -680,17 +679,16 @@ Następnie uruchamiamy program - jak możemy zauważyć na rysunku 5.9, jesteśm
 \end{figure}
 
 \newpage
-Dane do portfela wprowadzamy dokładnie w taki sam sposób jak w trybie API. Ustalamy poziom rocznego zwrotu z aktywa wolnego od ryzyka podobnie na poziomie $2 \%$, a współczynnika $k$ awersji do ryzyka inwestora na wartości 0,7. Reszta danych jak w poprzednim przykładzie pozostanie bez zmian. Po wprowadzeniu danych portfel przedstawia się tak jak na rysunku 5.10.
+Dane do portfela wprowadzamy dokładnie w taki sam sposób jak w trybie API. Na potrzeby tego przykładu ustalamy poziom rocznego zwrotu z aktywa wolnego od ryzyka na poziomie $2 \%$, a współczynnika $k$ awersji do ryzyka inwestora na wartości $k=0,7$. Dla reszty parametrów pozostawiamy ich domyślne wartości. Gotowy portfel został przedstawiony na rysunku 5.10.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{showwalletfilemode}
-	\caption{Pokazanie gotowego portfela w trybie \textit{file-mode}}
+	\caption{Gotowy portfel w trybie \textit{file-mode}}
 \end{figure}
-
-Jak możemy zauważyć, program zaktualizował zakres dni z których rozpatrujemy dane do długości wprowadzonych danych - wprowadziliśmy 8 cen, więc domyślną wartością zakresu jest 8 dni.
+Jak możemy zauważyć, program dostosował zakres dni z których rozpatrujemy dane do długości wprowadzonych danych - wprowadziliśmy 8 cen, więc domyślną wartością zakresu jest teraz 8 dni.
 Sprawdźmy, jak wygląda portfel optymalny dla wprowadzonych danych. Wynik znajduje się na rysunku 5.11.
-
+\newpage
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.4]{optimalportfoliofilemode}
@@ -699,12 +697,12 @@ Sprawdźmy, jak wygląda portfel optymalny dla wprowadzonych danych. Wynik znajd
 
 Wprowadzony portfel możemy zapisać do pliku, aby móc z niego korzystać przy kolejnych uruchomieniach programu. W tym celu wybieramy opcję \code{Save wallet to file} a następnie wprowadzamy nazwę pliku do którego chcemy zapisać nasz portfel. Odczytać go możemy wybierając przy kolejnym uruchomieniu opcję \textit{Open existing wallet}. Cały opisany proces został przedstawiony na rysunku 5.12.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.4]{openwlt}
+	\includegraphics[scale=0.342]{openwlt}
 	\caption{Zapis portfela do pliku oraz odczytanie portfela}
 \end{figure}
-
+\newpage
 \section{main.py - opis funkcjonalności}
 Jest to plik za pomocą którego uruchamiany jest program, zawiera ona import zewnętrznej biblioteki \code{argparse}, wewnętrznej \code{functions} oraz jedną funkcję - \code{main} - przedstawioną na rysunku 5.13.
 
@@ -720,21 +718,22 @@ Funkcja ta ma dwa zadania: przetworzenie opcjonalnego argumentu \code{-f} do uru
 \section{functions.py oraz additional\_functions.py - opis funkcjonalności}
 
 Plik \code{functions.py} jest trzonem działania programu - znajdują się z nim dwie główne klasy: \code{Wallet} i \code{Interface} oraz jedna pomocnicza \code{Stock}.
-Pierwszą z wymienionych klas, czyli \code{Wallet}, ukazano na rysunku 5.15. Przechowuje ona zmienne związane bezpośrednio z portfelem oraz wyniki kalkulacji wykonywanych w celu obliczenia portfela optymalnego dla inwestora. Oprócz tego, posiada swoją definicję funkcji \code{\_\_str\_\_}, dzięki której użycie w programie formuły \code{print} na obiekcie klasy \code{Wallet} zwraca wszystkie główne informacje dotyczące obecnego stanu portfela (możemy to zobaczyć na rysunkach 5.6 oraz 5.10).
-
+Klasa pomocnicza \code{Stock} jest używana tylko podczas uruchomionego trybu \textit{file-mode} i symuluje ona strukturę danych pobranych za pomocą \textit{Yahoo Finance API}, dzięki czemu działanie funkcji programu dla obu trybów działania (poza funkcją \code{get\_stocks\_returns}) jest takie samo.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{classstock}
 	\caption{Klasa \code{Stock}}
 \end{figure}
 
+Klasę \code{Wallet} ukazano na rysunku 5.15. Przechowuje ona zmienne związane bezpośrednio z portfelem oraz wyniki kalkulacji wykonywanych w celu obliczenia portfela optymalnego dla inwestora. Oprócz tego, posiada swoją definicję funkcji \code{\_\_str\_\_}, dzięki której użycie w programie formuły \code{print} na obiekcie klasy \code{Wallet} zwraca wszystkie główne informacje dotyczące obecnego stanu portfela (wynik uruchomienia możemy zobaczyć na rysunkach 5.6 oraz 5.10).
+\newpage
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{classwallet}
 	\caption{Klasa \code{Wallet}}
 \end{figure}
 
-Kolejna składowa pliku, czyli klasa \code{Interface} jest uruchamiana w pliku \code{main.py} (jak już wspomniano w poprzednim podrozdziale). Funkcja inicjalizacyjna obiektu tej klasy najpierw sprawdza, w jakim trybie zostało uruchomione narzędzie, a następnie wyświetla główne menu i przekierowuje do menu portfela odpowiedniego dla wybranego trybu działania programu.
+Kolejna składowa pliku to klasa \code{Interface} - jej obiekt jest tworzony w pliku \code{main.py}. Funkcja inicjalizacyjna obiektu tej klasy najpierw sprawdza, w jakim trybie zostało uruchomione narzędzie, a następnie wyświetla główne menu i przekierowuje do menu portfela odpowiedniego dla wybranego trybu działania programu.
 
 \begin{figure}[ht]
 	\centering
@@ -742,15 +741,15 @@ Kolejna składowa pliku, czyli klasa \code{Interface} jest uruchamiana w pliku \
 	\caption{Funkcja inicjalizacyjna obiektu klasy \code{Interface}}
 \end{figure}
 
-Funkcja main\_menu klasy \code{Interface} pozwala na wybór jednej z trzech opcji: odczytania portfelu z pliku, otwarcia nowego portfela (tworzenie obiektu klasy \code{Wallet} w klasie \code{Interface}) lub opuszczenia programu. W przypadku uruchomienia narzędzia w trybie \textit{file-mode} menu to jest pomijane, zostaje wyświetlony komunikat o włączonym trybie \textit{file-mode} i funkcja kończy swoje działanie. Menu jest zabezpieczone przed przypadkiem wpisania czegokolwiek poza dozwolonymi symbolami (w tym przypadku cyfry \code{1}, \code{2} lub \code{3}) przez komunikat o nieprawidłowo wybranej funkcji i powrót do możliwości wpisania prawidłowego symbolu.
+Funkcja \code{main\_menu} klasy \code{Interface} pozwala na wybór jednej z trzech opcji: odczytania portfelu z pliku, otwarcia nowego portfela (tzn. utworzenie obiektu klasy \code{Wallet} w obiekcie klasy \code{Interface}) lub opuszczenia programu. W przypadku uruchomienia narzędzia w trybie \textit{file-mode} menu to jest pomijane - zostaje wyświetlony komunikat o włączonym trybie \textit{file-mode} i funkcja kończy swoje działanie. Menu jest zabezpieczone przed przypadkiem wpisania w strumieniu wejściowym czegokolwiek poza dozwolonymi symbolami (czyli na przykład w tym przypadku cyfry \code{1}, \code{2} lub \code{3}) przez komunikat o nieprawidłowo wybranej funkcji i powrót do możliwości wpisania prawidłowego symbolu.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{mainmenucode}
 	\caption{Funkcja \code{main\_menu} klasy \code{Interface}}
 \end{figure}
-
-Widoczna w funkcji \code{main\_menu} funkcja \code{load\_stocks\_info\_from\_file} (ukazana na rysunku 5.18) w pierwszej kolejności tworzy obiekt klasy \code{Wallet} w klasie \code{Interface}, który jest portfelem na którym działamy podczas czasu działania programu. Następnie funkcja zamienia strumień wejściowy (czyli dane z naszego pliku) na strukturę \code{DataFrame}, dostępną w bibliotece \code{pandas}. Następuje sprawdzenie, czy plik jest odpowiednio sformatowany oraz czy oprócz nazw spółek i separatorów \code{;} zawiera jedynie dane numeryczne (jeżeli tak nie jest, działanie programu zostaje przerwane) - poźniej dane są zapisywane do listy aktywów ryzykownych \code{stocks} w portfelu jako obiekty klasy pomocnicznej Stock, będącej imitacją wpisu aktywa ryzykownego w trybie \textit{API}.
+\newpage
+Widoczna w funkcji \code{main\_menu} funkcja \code{load\_stocks\_info\_from\_file} (ukazana na rysunku 5.18) w pierwszej kolejności tworzy obiekt klasy \code{Wallet} w obiekcie klasy \code{Interface} - jest to portfel na którym będziemy operować w tym uruchomieniu programu. Następnie funkcja zamienia strumień wejściowy (czyli dane z naszego pliku) na strukturę \code{DataFrame} z biblioteki \code{pandas}. Następuje sprawdzenie, czy plik jest odpowiednio sformatowany oraz czy oprócz nazw spółek i separatorów \code{;} zawiera jedynie dane numeryczne (jeżeli tak nie jest, działanie programu zostaje przerwane) - poźniej dane są zapisywane do listy aktywów ryzykownych \code{stocks} w portfelu jako obiekty klasy pomocnicznej \code{Stock}.
 
 \begin{figure}[ht]
 	\centering
@@ -758,18 +757,165 @@ Widoczna w funkcji \code{main\_menu} funkcja \code{load\_stocks\_info\_from\_fil
 	\caption{Funkcja \code{load\_stocks\_info\_from\_file} klasy \code{Interface}}
 \end{figure}
 
-Po wybraniu opcji otworzenia portfela z pliku uruchamiana jest funkcja \code{open\_existing\_wallet}. W pierwszej kolejności prosi nas o wpisanie ścieżki do pliku, gdzie znajduje się portfel na którym chcemy działać w tym uruchomieniu programu. Jeżeli ścieżka jak i portfel istnieją, obiekt portfela jest tworzony z obiektu zapisanego do pliku za pomocą biblioteki \code{pickle}. Jeżeli otwierany przez nas portfel był tworzony w trybie \textit{file-mode}, wyświetlany jest o tym odpowiedni komunikat. Funkcja działa w pętli do momentu wpisania odpowiedniej ścieżki zawierającej prawidłowo zapisany portfel.
+Po wybraniu opcji otworzenia portfela z pliku uruchamiana jest funkcja \code{open\_existing} \code{\_wallet}. W pierwszej kolejności prosi nas o wpisanie ścieżki do pliku, gdzie znajduje się portfel na którym chcemy działać w tym uruchomieniu programu. Jeżeli zarówno ścieżka jak i portfel istnieją, obiekt portfela jest tworzony z obiektu zapisanego do pliku za pomocą biblioteki \code{pickle}. Jeżeli otwierany przez nas portfel był tworzony w trybie \textit{file-mode}, wyświetlany jest o tym odpowiedni komunikat. Funkcja działa w pętli do momentu wpisania odpowiedniej ścieżki zawierającej prawidłowo zapisany portfel.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{openfromfilecode}
 	\caption{Funkcja \code{open\_existing\_wallet} klasy \code{Interface}}
 \end{figure}
+\newpage
+Przejdźmy do opisu menu portfela, które posiada dwie wersje - \code{wallet\_menu\_api} oraz \newline
+\code{wallet\_menu\_file\_mode}. W omawianiu funkcji skupimy się na tym pierwszym, gdyż jest to po prostu wzbogacona wersja menu portfela w trybie \textit{file-mode}, a działanie dostępnych funkcji w obu trybach jest takie samo dzięki pomocniczej klasie \code{Stock}.
+Funkcja \code{wallet\_menu\_api} posiada do wyboru jedenaście opcji, wybieranych przez wpisanie z klawiatury opowiedniej cyfry od \code{0} do \code{10}. Podobnie jak \code{main\_menu}, obecne jest zabezpieczenie przed przypadkiem wpisania czegokolwiek poza dozwolonymi symbolami. 
 
-Przejdźmy menu portfela, które posiada dwie wersje - \code{wallet\_menu\_api} oraz \newline
-\code{wallet\_menu\_file\_mode}. W omawianiu funkcji skupimy się na tym pierwszym, gdyż jest to po prostu wzbogacona wersja menu portfela w trybie \textit{file-mode}, a działanie dostępnych funkcji w obu trybach jest takie samo - dzieje się tak dzięki pomocniczej klasie \code{Stock} używanej w \textit{file-mode}, której działanie jest w pełni kompatybilne z działaniem obiektów zwracanych przez \textit{Yahoo API}.
-Funkcja \code{wallet\_menu\_api} posiada do wyboru jedenaście opcji, wybieranych przez wpisanie z klawiatury opowiedniej cyfry od \code{0} do \code{10}. Podobnie jak \code{main\_menu}, obecne jest zabezpieczenie przed przypadkiem wpisania czegokolwiek poza dozwolonymi symbolami
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{walletmenucode}
+	\caption{Funkcja \code{wallet\_menu\_api} klasy \code{Interface}}
+\end{figure}
 
+Funkcje \code{add\_stock\_to\_wallet} oraz \code{remove\_stock\_from\_wallet} są dostępne jedynie w trybie \textit{API}. Umożliwiają modyfikację listy posiadanych aktywów ryzykownych w portfelu. Funkcja dodająca aktywo do portfela przyjmuje od użytkownika symbol aktywa, pod którym jest ono dostępne na \textit{Yahoo Finance}. Następnie sprawdza, czy symbol ten istnieje w bazie - jeżeli tak, aktywo jest dodawane do portfela. W przeciwnym przypadku zwracany jest komunikat o błędzie.
+Funkcja usuwająca aktywo z portfela również przyjmuje od użytkownika symbol aktywa, którego chce się pozbyć. Obecność aktywa w portfelu jest weryfikowana i w przypadku istnienia aktywa w portfelu jest ono usuwane.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{addremovestockcode}
+	\caption{Funkcje \code{add\_stock\_to\_wallet} oraz \code{remove\_stock\_from\_wallet} klasy \code{Interface}}
+\end{figure}
+
+Opcja pod numerem \code{3} uruchamia funkcję \code{update\_risk\_factor}, aktualizująca współczynnik awersji do ryzyka inwestora. Jako że nie obowiązują żadne wytyczne co do zakresu w którym powinna się znajdować jego wartość, program jedynie upewnia się że wprowadzona przez użytkownika wartość jest możliwa do zapisu jako zmienna typu \textit{float} (liczba zmiennoprzecinkowa).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{updatekcode}
+	\caption{Funkcja \code{update\_risk\_factor} klasy \code{Interface}}
+\end{figure}
+
+Funkcja \code{update\_risk\_free\_asset} przyjmuje roczny zwrot z aktywa wolnego od ryzyka w postaci procentowej, po czym zamienia go na liczbę. Wpisywana wartość musi znajdować się w przedziale od 0 do 100, w innym przypadku zwracany jest błąd. Funkcja działa w pętli do momentu wpisania wartości spełniającej te warunki.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{updaterfcode}
+	\caption{Funkcja \code{update\_risk\_free\_asset} klasy \code{Interface}}
+\end{figure}
+\newpage
+Funkcja \code{update\_amount\_of\_days\_to\_take\_data\_from} aktualizuje zakres dni z których rozpatrujemy dane dotyczące aktywów ryzykownych. Domyślna wartość wynosi 500 dni w trybie API oraz $n$ dni dla danych z $n$ dni podanych w trybie \textit{file-mode}. Funkcja przyjmuje od użytkownika ilość dni, a więc liczbę całkowitą. Liczba wpisana przez użytkownika musi:
+\begin{itemize}
+	\item być nieujemna,
+	\item być mniejsza niż zakres dostępnych danych, co jest sprawdzane przez funkcję \code{given\_da} \code{ta\_is\_long\_enough} importowaną z pliku \code{additional\_functions.py} (warunek sprawdzany tylko w trybie \textit{file-mode}).
+\end{itemize}
+Funkcja działa w pętli do momentu wpisania wartości spełniającej te warunki.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{updatedayscode}
+	\caption{Funkcja \code{update\_amount\_of\_days\_to\_take\_data\_from} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{givendatalongenoughcode}
+	\caption{Funkcja \code{given\_data\_is\_long\_enough}}
+\end{figure}
+
+Funkcja \code{update\_return\_calculation} aktualizuje ilość dni z których liczona jest średnia cena zamknięcia aktywów ryzykownych. Domyślna wartość tej zmiennej wynosi 1 dzień. Funkcja przyjmuje od użytkownika ilość dni, a więc liczbę całkowitą. Liczba wpisana przez użytkownika w obu funkcjach musi:
+\begin{itemize}
+	\item być nieujemna,
+	\item być mniejsza niż zakres dostępnych danych (warunek sprawdzany tylko w trybie \textit{file-mode}),
+	\item być mniejsza lub równa zakresowi dni z których rozpatrujemy dane dotyczące aktywów ryzykownych.
+\end{itemize}
+Funkcja działa do momentu wpisania wartości spełniającej te warunki.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{updateretdayscode}
+	\caption{Funkcja \code{update\_return\_calculation} klasy \code{Interface}}
+\end{figure}
+\newpage
+Funkcja \code{update\_budget} aktualizuje budżet, dla którego będą liczone kwoty inwestycji w dane aktywa. Domyślna wartość to 100 USD. Wpisana przez użytkownika wartość musi być większa niż zero i być liczbą całkowitą. Funkcja działa do momentu wpisania wartości spełniającej te warunki.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{updatebudgetcode}
+	\caption{Funkcja \code{update\_budget} klasy \code{Interface}}
+\end{figure}
+
+Najbardziej rozbudowanym elementem programu jest funkcja \code{show\_optimal\_portfol} \code{io\_weights}. Na początek przelicza ona wprowadzony roczny zwrot z aktywa wolnego od ryzyka na okres, z jakiego liczony jest średni zwrot z aktywa ryzykownego (tzn. dla średnich jednodniowych wprowadzony roczny zwrot z aktywa wolnego od ryzyka jest przeliczany na dzienny zwrot). Następnie wyliczany jest portfel styczności, a więc wagi aktywów ryzykownych w portfelu. Są one wyświetlane za pomocą funkcji \code{show\_risk\_assets\_weights}. W następnej kolejności wyświetlana jest macierz kowariancji (jako jedyna jest wyświetlana zwykłą komendą \code{print} dla celów estetyczniejszego sposobu ukazania macierzy), oraz liczone są wagi portfela optymalnego. Ostatnim elementem funkcji jest wyświetlenie użytkownikowi zgodnie z wprowadzonym przez niego budżetem, jakie kwoty powinien on zainwestować w dane aktywa.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{showoptimalweightscode}
+	\caption{Funkcja \code{show\_optimal\_portfolio\_weights} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.37]{showriskweightscode}
+	\caption{Funkcja \code{show\_risk\_assets\_weights} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.37]{showcovmartixcode}
+	\caption{Funkcja \code{show\_covariation\_matrix} klasy \code{Interface}}
+\end{figure}
+\newpage
+Funkcja \code{calculate\_tangent\_portfolio\_weights} na początku oblicza zwroty z aktywów ryzykownych znajdujących w naszym portfelu. Jeżeli wybrany tryb działania to \textit{API}, za pomocą funkcji \code{history} obiektu klasy \code{Ticker} z biblioteki \code{yfinance} pobierane są dane aktywa ryzykownego i zapisywane w obiekcie klasy \code{DataFrame}. Dla trybu \textit{file-mode} dane pobierane są z listy \textit{self.wallet.stocks} która została stworzona podczas działania funkcji \code{load\_stocks\_info\_from\_file}  Zwrot liczony jest przez obliczenie zmian procentowych wartości z kolumny \code{['Adj Close']}, czyli ceny zamknięcia z uwzględnionymi przypadkami dywidendy oraz podziału akcji - drugie z tych obliczeń jest dokonywane przez funkcji \code{apply\_stock\_splits} importowaną z pliku \code{additional\_functions.py}. Zwroty te zapisywane są w obiekcie klasy \code{DataFrame}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{calculatetangentcode}
+	\caption{Funkcja \code{calculate\_tangent\_portfolio\_weights} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{getstocksreturnscode}
+	\caption{Funkcja \code{get\_stocks\_returns} klasy \code{Interface}}
+\end{figure}
+
+Następnie z pomocą funkcjonalności \textit{list comprehension} języka \textit{Python}\cite{pythonlist} oraz funkcji \code{calculate\_z\_matrix} obliczane są zmienne pomocnicze \textit{z} (ich rola jest wyjaśniona w podrozdziale 3.5). Są one przeliczane na wagi aktywów ryzykownych w portfelu również za pomocą \textit{list comprehension}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{calczmatrixcode}
+	\caption{Funkcja \code{calculate\_z\_matrix} klasy \code{Interface}}
+\end{figure}
+\newpage
+Przejdźmy do omówienia funkcji \code{calculate\_optimal\_portfolio\_weights}. Na początku oblicza ona parametry portfela styczności - to znaczy jego oczekiwanego zwrotu i odchylenia standardowego. Nastepnie obliczane są parametry portfela optymalnego - oczekiwany zwrot, odchylenie standardowe oraz \textit{A} (tak jak zostało to wyjaśnione w podrozdziale 3.6). Wyliczone parametry pozwalają nam osiągnąć ostateczny cel programu - obliczenie wagi aktywa ryzykownego oraz portfela aktywów ryzykownych. Sformatowane do przyjaznego użytkownikowi formatu wyniki są przedstawiane za pomocą funkcji \code{show\_budget\_calculations}. Po zakończeniu działania funkcji program wraca do menu portfela.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{calcoptportwcode}
+	\caption{Funkcja \code{calculate\_optimal\_portfolio\_weights} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{gettanportparamscode}
+	\caption{Funkcja \code{get\_tangent\_portfolio\_parameters} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{getoptportparamscode}
+	\caption{Funkcja \code{get\_optimal\_portfolio\_parameters} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{showbudgetcalccode}
+	\caption{Funkcja \code{show\_budget\_calculations} klasy \code{Interface}}
+\end{figure}
+
+\newpage
+Funkcja \code{save\_wallet\_to\_file} umożliwia zapis aktualnie otwartego portfela do pliku. W tym celu użytkownik wpisuje ścieżkę, pod którą chciałby zapisać portfel. Jeżeli plik pod wskazaną ścieżką już istnieje, użytkownik stawiany jest przed wyborem nadpisania istniejącego już pliku aktualnym portfelem albo wybrania innej ścieżki. Zapis odbywa się za pomocą funkcji \code{dump} z biblioteki \code{pickle}. Funkcja działa do momentu poprawnego zapisu portfela.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{savewalletcode}
+	\caption{Funkcja \code{save\_wallet\_to\_file} klasy \code{Interface}}
+\end{figure}
 \chapter{Ocena działania programu}
 
 Test działania 
@@ -826,6 +972,11 @@ aplikacji w rzeczywistości - (np zebranie wyników, inwestycja “na sucho” i
 	\emph{Portfolio Theory}.
 	https://www.glynholton.com/notes/portfolio\_theory/,
 	2013
+	
+	\bibitem{pythonlist}
+	Python Software Foundation,
+	\emph{Documentation -> The Python Tutorial -> Data Structures}
+	https://docs.python.org/3/tutorial/datastructures.html
 	
 \end{thebibliography}
 \begin{comment}
