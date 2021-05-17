@@ -135,7 +135,7 @@ Jak wiadomo, pojedyncze akcje na giełdzie cechują się dość dużą nieprzewi
 	źródło:https://www.bankier.pl/inwestowanie/profile/quote.html?symbol=NOK1V}
 \end{figure}
 
-Jak zauważa Markowitz w swoim artykule \textit{Portfolio Selection} - inwestor może uchronić się (w pewnym stopniu) przed niestabilnością rynku przez stworzenie portfela składającego się z różnych aktywów tak, by zminimalizować ryzyko. Minimalizacja ryzyka przez zakup różnych aktywów nazywana jest \textit{dywersyfikacją}. Markowitz w swoim modelu przyjmuje dwa ważne założenia: 
+Jak zauważa Markowitz w swoim artykule \textit{Portfolio Selection} - inwestor może uchronić się (w pewnym stopniu) przed niestabilnością rynku przez stworzenie portfela składającego się z różnych aktywów tak, by zminimalizować ryzyko\cite{markowitz}. Minimalizacja ryzyka przez zakup różnych aktywów nazywana jest \textit{dywersyfikacją}. Markowitz w swoim modelu przyjmuje dwa ważne założenia: 
 
 \begin{enumerate}
 	\item Zwroty mają rozkład normalny
@@ -326,7 +326,7 @@ Wiemy, że portfele wydajne zawierające dwa aktywa ryzykowne leżą na górnej 
 
 Jak można zauważyć na rysunku 3.5, portfel leżący na prostej przechodzącej przez punkty $E$ oraz $(0, r_f)$ dla przykładowych danych ryzyk $\sigma_i$ oraz $\sigma_j$ daje wyższą stopę zwrotu (punkty $I$ oraz $J$) niż portfel leżący na prostej przechodzącej przez punkty $N$ oraz $(0, r_f)$ (punkty $I'$ oraz $J'$). Najlepszym portfelem - takim, który spełnia założenia Markowitza o maksymalizacji oczekiwanego zwrotu oraz minimalizacji ryzyka - będzie więc portfel leżący na prostej stycznej do hiperboli, a więc zawierającej punkt $E$. Portfel z punktu $E$, w tym wypadku składujący się z 2 aktywów ryzykownych $S_1$ i $S_2$, nazywamy \textit{portfelem styczności}. Portfele wydajne leżą na prostej przechodzącej przez punkt $(0,r_f)$ i punkt $E$, tak więc składają się z aktywa wolnego od ryzyka i portfela $E$. Stąd każdy inwestor niezależnie od swojej awersji do ryzyka ma taki sam portfel aktywów ryzykownych, portfele różnią jedynie się częścią zainwestowaną w aktywo wolne od ryzyka i portfel styczności $E$. Nazywamy to \textit{twierdzeniem o wzajemnej separacji funduszy} (ang. \textit{mutual fund separation theorem})\\ 
 
-Było to odkrycie, które wywołało szeroką dyskusję w świecie finansów. W niedługim czasie po Markowitzu zaczęto rozwijać tę ideę, czego skutkiem były między innymi opublikowana przez Jamesa Tobina w 1958 praca na temat \textit{super-efektywnego portfela}. Poźniej, w 1964 Williama Sharpe wydał pracę w której opracował \textit{model wyceny aktywów kapitałowych - (ang. CAPM - Capital Asset Pricing Model)}\cite{holton}\\
+Było to odkrycie, które wywołało szeroką dyskusję w świecie finansów. W niedługim czasie po Markowitzu zaczęto rozwijać tę ideę, czego skutkiem były między innymi opublikowana przez Jamesa Tobina w 1958 praca na temat \textit{super-efektywnego portfela}. Poźniej, w 1964 William Sharpe wydał pracę w której opracował \textit{model wyceny aktywów kapitałowych - (ang. CAPM - Capital Asset Pricing Model)}\cite{holton}\\
 
 Zajmijmy się problemem analitycznego wyznaczenia portfela styczności. Poszukiwane są współrzędne portfela styczności (tzn. punktu $E$ na rysunku 3.5) oraz jego wagi. Jest to przypadek, w którym żadne środki nie są przeznaczone na aktywo wolne od ryzyka, a więc $w_f = 0$. Przekształćmy równania z podpunktu 3.2, aby znajdowały się w nich 3 aktywa: 
 
@@ -784,7 +784,7 @@ Funkcja usuwająca aktywo z portfela również przyjmuje od użytkownika symbol 
 	\caption{Funkcje \code{add\_stock\_to\_wallet} oraz \code{remove\_stock\_from\_wallet} klasy \code{Interface}}
 \end{figure}
 
-Opcja pod numerem \code{3} uruchamia funkcję \code{update\_risk\_factor}, aktualizująca współczynnik awersji do ryzyka inwestora. Jako że nie obowiązują żadne wytyczne co do zakresu w którym powinna się znajdować jego wartość, program jedynie upewnia się że wprowadzona przez użytkownika wartość jest możliwa do zapisu jako zmienna typu \textit{float} (liczba zmiennoprzecinkowa).
+Opcja pod numerem \code{3} uruchamia funkcję \code{update\_risk\_factor}, aktualizująca współczynnik awersji do ryzyka inwestora. Program sprawdza czy wprowadzona wartość jest większa niż $0$ oraz upewnia się że jest ona możliwa do zapisu jako zmienna typu \textit{float} (liczba zmiennoprzecinkowa).
 
 \begin{figure}[ht]
 	\centering
@@ -819,18 +819,25 @@ Funkcja działa w pętli do momentu wpisania wartości spełniającej te warunki
 	\caption{Funkcja \code{given\_data\_is\_long\_enough}}
 \end{figure}
 
-Funkcja \code{update\_return\_calculation} aktualizuje ilość dni z których liczona jest średnia cena zamknięcia aktywów ryzykownych. Domyślna wartość tej zmiennej wynosi 1 dzień. Funkcja przyjmuje od użytkownika ilość dni, a więc liczbę całkowitą. Liczba wpisana przez użytkownika w obu funkcjach musi:
+Funkcja \code{update\_return\_calculation} aktualizuje ilość dni z których liczona jest średnia cena zamknięcia aktywów ryzykownych. Domyślna wartość tej zmiennej wynosi 1 dzień. Funkcja przyjmuje od użytkownika jedną z czterech opcji:
 \begin{itemize}
-	\item być nieujemna,
-	\item być mniejsza niż zakres dostępnych danych (warunek sprawdzany tylko w trybie \textit{file-mode}),
-	\item być mniejsza lub równa zakresowi dni z których rozpatrujemy dane dotyczące aktywów ryzykownych.
+	\item średnie jednodniowe (\code{1d})
+	\item średnie tygodniowe (\code{1wk}),
+	\item średnie miesięczne (\code{1mo}),
+	\item średnie trzymiesięczne (\code{3mo}).
 \end{itemize}
-Funkcja działa do momentu wpisania wartości spełniającej te warunki.
-
+Funkcja działa do momentu wprowadzenia jednej z tych wartości - sama wartość typu string jest potrzebna w funkcji \code{get\_stocks\_returns}, jako jeden z argumentów przy pobieraniu danych, natomiast wartość liczbowa potrzebna do obliczeń jest uzyskiwana dzięki mapowaniu wartości typu string na int przez zmienną globalną \code{N\_DAYS\_RETURNS\_MAP}.
+Oprócz tego, wybrana wartość musi być mniejsza niż zakres dostępnych danych, co jest sprawdzane przez funkcję \code{given\_data\_is\_long\_enough} importowaną z pliku \code{additional} \code{\_functions.py}(warunek sprawdzany tylko w trybie \textit{file-mode}) oraz być mniejsza lub równa zakresowi dni z których rozpatrujemy dane dotyczące aktywów ryzykownych.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.37]{updateretdayscode}
 	\caption{Funkcja \code{update\_return\_calculation} klasy \code{Interface}}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.37]{ndaysretmap}
+	\caption{Zmienna globalna \code{N\_DAYS\_RETURNS\_MAP}}
 \end{figure}
 \newpage
 Funkcja \code{update\_budget} aktualizuje budżet, dla którego będą liczone kwoty inwestycji w dane aktywa. Domyślna wartość to 100 USD. Wpisana przez użytkownika wartość musi być większa niż zero i być liczbą całkowitą. Funkcja działa do momentu wpisania wartości spełniającej te warunki.
@@ -918,17 +925,16 @@ Funkcja \code{save\_wallet\_to\_file} umożliwia zapis aktualnie otwartego portf
 \end{figure}
 \chapter{Ocena działania programu}
 
-W tym rozdziale stworzony zostanie portfel zawierający dziesięć aktywów ryzykownych oraz jedno aktywo wolne od ryzyka. Za pomocą zmieniania danych w portfelu takich jak:
+W tym rozdziale stworzony zostanie portfel zawierający aktywa ryzykowne oraz jedno aktywo wolne od ryzyka. Nie jest jasno określone ile aktywów ryzykownych powinno się posiadać w portfelu dla efektywnej dywersyfikacji. Istnieją artyuły naukowe o tym że liczba ta powinna przekraczać 50 - jednak takie portfele są kosztowne i trudne do utrzymania przez przeciętnego inwestora, gdyż każda operacja kupna oraz sprzedaży wiąże się z pewnym kosztem. Z drugiej strony, znajdziemy artykuły o tym, że znaczne profity z dywersyfikacji możemy osiągać już przy 6-15 aktywach (przykłady:Ron Bird oraz Mark Tippet w swojej pracy \textit{Note---Naive Diversification and Portfolio Risk---A Note} proponowali liczbę 10-15 aktywów \cite{birdtippett}, natomiast Simone Brands oraz David R. Gallagher - 6 aktywów - jednak warto dodać że badanie wykonywano jedynie biorąc pod uwagę rynek australijski\cite{brandsgallagher})\cite{howmanystocks}. Stąd przystaniemy przy liczbie dziesięciu aktywów ryzykownych w portfelu.
+
+Za pomocą zmiany danych w portfelu takich jak:
 
 \begin{itemize}
 	\item współczynnik awersji do ryzyka inwestora,
 	\item średnia cena zamknięcie liczona z \textit{n} dni,
-	\item stopa procentowa zwrotu z inwestycji w aktywo wolne od ryzyka,
 	\item ewentualna zmiana aktywa ryzykownego,
 \end{itemize}
-
 stworzymy kilka portfeli - wyniki zostaną przedstawione w tabelach oraz omówione. Portfele zostaną stworzone w programie działającym w trybie \textit{API}.
-
 Na początek pokrótce przedstawmy aktywa ryzykowne, które będą znajdować się w portfelu - w nawiasach znajdują się symbole, pod którymi można znaleźć te aktywa na stronie \textit{Yahoo Finance} i w takiej formie aktywa te będą przedstawiane w tabelach:
 
 \begin{itemize}
@@ -944,11 +950,215 @@ Na początek pokrótce przedstawmy aktywa ryzykowne, które będą znajdować si
 	\item \textit{\textbf{American International Group, Inc. (AIG)}} - jedno z największych na świecie przedsiębiorstw ubezpieczeniowych\cite{aig}.
 \end{itemize}
 
+Na początek sprawdźmy, jak portfel zachowuje się dla rocznej stopy zwrotu aktywa wolnego od ryzyka $r_f = 2\%$, średniej ceny zamknięcia liczonej z jednego dnia oraz zmiennego współczynnika $k$ awersji do ryzyka inwestora. Wykres oczekiwanego zwrotu i odchylenia standardowego aktywów ryzykownych w takim przypadku przedstawiono na rysunku 6.1.
+Zauważamy, że wartością mocno odstającą swoim oczekiwanym zwrotem jak i odchyleniem standardowym jest aktywo ryzykowne spółki \textit{Tesla}, inną wartością jednak mniej wyróżniającą się jest aktywo \textit{Tilray}.
+Następnie obliczono wagi aktywów w portfelu optymalnym inwestora. Wyniki zapisano w tabeli 6.1.\newline
+Legenda do tabel:\\
+$w_T$ - waga portfela styczności (aktywów ryzykownych) w portfelu optymalnym\\
+$w_{r_f}$ - waga aktywa wolnego od ryzyka w portfelu optymalnym\\
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & 0,30           & 0,70            \\ \hline
+		\textbf{0,10}                                              & 0,15          & 0,85           \\ \hline
+		\textbf{0,15}                                             & 0,10           & 0,90           \\ \hline
+		\textbf{0,20}                                              & 0,08          & 0,92           \\ \hline
+		\textbf{0,25}                                             & 0,06          & 0,94           \\ \hline
+		\textbf{0,30}                                              & 0,05          & 0,95           \\ \hline
+		\textbf{0,35}                                             & 0,04          & 0,96           \\ \hline
+		\textbf{0,40}                                              & 0,04          & 0,96           \\ \hline
+		\textbf{0,45}                                             & 0,03          & 0,97           \\ \hline
+		\textbf{0,50}                                              & 0,03          & 0,97           \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.35]{scatterplot}
+	\caption{Wykres oczekwianych zwrotów i odchylenia standardowego aktywów ryzykownych rozpatrywanego portfela}
+\end{figure}
+\newpage
+Jak zauważamy, już dla wartości współczynnika $k$ na poziomie wartości $0,5$ program sugeruje minimalny wkład pieniężny w aktywa ryzykowne - dzieje się tak dlatego, że wprowadzone przez nas aktywo wolne od ryzyka oferuje stosunkowo wysoki zwrot przy zerowym ryzyku w porównaniu do aktywów ryzykownych (portfel aktywów ryzykownych oferuje oczekiwany zwrot $\mu \approx 26\%$ przy odchyleniu standardowym wynoszącym $\sigma \approx 289\%$) - nawet dla skłonnego do racjonalnego ryzyka inwestora (portfel dla $k = 0,05$) inwestycja w aktywa ryzykowne to tylko 30 procent jego budżetu. Nie będziemy sprawdzać przypadków dla różnej stopy do ryzyka - zmiany w ujęciu dziennym są na tyle niskie, że nie wprowadzają zmiany w obiczanych wagach portfela do drugiego miejsca po przecinku. Sprawdźmy, jak portfel będzie się zachowywać dla liczonej średniej ceny zamknięcia dla średniej tygodniowej oraz miesięcznej. Wyniki dla tak skonstruowanych portfeli przedstawiono w tabelach 6.2 oraz 6.3.
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & -0,42         & 1,42           \\ \hline
+		\textbf{0,1}                                              & -0,21         & 1,21           \\ \hline
+		\textbf{0,15}                                             & -0,14         & 1,14           \\ \hline
+		\textbf{0,2}                                              & -0,1          & 1,1            \\ \hline
+		\textbf{0,25}                                             & -0,08         & 1,08           \\ \hline
+		\textbf{0,3}                                              & -0,06         & 1,06           \\ \hline
+		\textbf{0,35}                                             & -0,06         & 1,06           \\ \hline
+		\textbf{0,4}                                              & -0,05         & 1,05           \\ \hline
+		\textbf{0,45}                                             & -0,05         & 1,05           \\ \hline
+		\textbf{0,5}                                              & -0,04         & 1,04           \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & 0,22          & 0,78           \\ \hline
+		\textbf{0,1}                                              & 0,11          & 0,89           \\ \hline
+		\textbf{0,15}                                             & 0,07          & 0,93           \\ \hline
+		\textbf{0,2}                                              & 0,06          & 0,94           \\ \hline
+		\textbf{0,25}                                             & 0,04          & 0,96           \\ \hline
+		\textbf{0,3}                                              & 0,04          & 0,96           \\ \hline
+		\textbf{0,35}                                             & 0,03          & 0,97           \\ \hline
+		\textbf{0,4}                                              & 0,03          & 0,97           \\ \hline
+		\textbf{0,45}                                             & 0,02          & 0,98           \\ \hline
+		\textbf{0,5}                                              & 0,02          & 0,98           \\ \hline
+	\end{tabular}
+\end{table}
+\newpage
+Wyniki (choć w każdym przypadku przeważające na korzyść aktywa wolnego od ryzyka) są dość rozbieżne, mimo tego że rozpatrujemy wciąż portfel tych samych aktywów ryzykownych. Według Markowitza, zwroty aktywów powinny mieć rozkład normalny - sprawdźmy, jak wyglądają dystrybucje zwrotów wybranych przez nas spółek - wynik przedstawiono na rysunku 6.2.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.3]{zwrotyplot}
+	\caption{Rozkład zwrotów aktywów ryzykownych rozpatrywanego portfela}
+\end{figure}
+
+Na otrzymanym wykresie możemy zauważyć charakterystyczny "dzwon" w okolicy wartości $0$ na osi $x$. Świadczy to o tym, że problemem nie jest nieprzystający do założeń rozkład średnich. Powodem może być drugie z założeń Markowitza - mówiące o racjonalności inwestorów. W rzeczywistości rynek jest narażony na duże zmiany wynikające z chwilowego skupienia inwestorów na danej spółce lub grupie spółek\cite{simplifiedmarkowitz}. Bardzo jaskrawym przykładem braku racjonalności inwestorów może być przypadek z początku pandemii koronawirusa, kiedy znacząco wzrósł popyt na oprogramowanie komputerow umożliwiające zdalne przeprowadzanie spotkań - w szczególności \textit{Microsoft Teams} oraz \textit{Zoom}. Inwestorzy mylnie zaczęli inwestować w aktywa \textit{Zoom Technologies} - firmy, która nie miała nic wspólnego z komunikatorem \textit{Zoom} - doprowadziło to do wzrostu ceny akcji o 1800\% względem stanu z początku roku, gdzie akcje firmy zajmującej się komunikatorem \textit{Zoom} wzrosły jedynie o 132\%. W konsekwencji doprowadziło to do zablokowania inwestycji w aktywa \textit{Zoom Technologies}.\cite{zoominvest}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.3]{zoom}
+	\caption{Graficzny opis sytuacji spółek \textit{Zoom} oraz \textit{Zoom Technologies} z pierwszego kwartału 2020 roku. Źródło:\cite{zoominvest}}
+\end{figure}
+\newpage
+Aby lepiej pokazać narażenie rynku na zmiany, zmieńmy liczbę dni z których pobierane są dane do 1000, następnie przeliczmy ponownie wagi portfela optymalnego dla zmiennego współczynnika $k$, $r_f = 2\%$ i średnich dziennych, tygodniowych oraz miesięcznych. Wyniki przedstawiono w tabelach 6.4, 6.5 oraz 6.6.
+
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & 0,23          & 0,77           \\ \hline
+		\textbf{0,1}                                              & 0,11          & 0,89           \\ \hline
+		\textbf{0,15}                                             & 0,08          & 0,92           \\ \hline
+		\textbf{0,2}                                              & 0,06          & 0,94           \\ \hline
+		\textbf{0,25}                                             & 0,05          & 0,95           \\ \hline
+		\textbf{0,3}                                              & 0,04          & 0,96           \\ \hline
+		\textbf{0,35}                                             & 0,03          & 0,97           \\ \hline
+		\textbf{0,4}                                              & 0,03          & 0,97           \\ \hline
+		\textbf{0,45}                                             & 0,03          & 0,97           \\ \hline
+		\textbf{0,5}                                              & 0,02          & 0,98           \\ \hline
+	\end{tabular}
+\end{table}
+\newpage
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & -2,41         & 3,41           \\ \hline
+		\textbf{0,1}                                              & -1,21         & 2,21           \\ \hline
+		\textbf{0,15}                                             & -0,8          & 1,8            \\ \hline
+		\textbf{0,2}                                              & -0,6          & 1,6            \\ \hline
+		\textbf{0,25}                                             & -0,48         & 1,48           \\ \hline
+		\textbf{0,3}                                              & -0,4          & 1,4            \\ \hline
+		\textbf{0,35}                                             & -0,34         & 1,34           \\ \hline
+		\textbf{0,4}                                              & -0,3          & 1,3            \\ \hline
+		\textbf{0,45}                                             & -0,27         & 1,27           \\ \hline
+		\textbf{0,5}                                              & -0,24         & 1,24           \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05}                                             & -1,29         & 1,29           \\ \hline
+		\textbf{0,1}                                              & -0,65         & 1,65           \\ \hline
+		\textbf{0,15}                                             & -0,43         & 1,43           \\ \hline
+		\textbf{0,2}                                              & -0,32         & 1,32           \\ \hline
+		\textbf{0,25}                                             & -0,26         & 1,26           \\ \hline
+		\textbf{0,3}                                              & -0,22         & 1,22           \\ \hline
+		\textbf{0,35}                                             & -0,18         & 1,18           \\ \hline
+		\textbf{0,4}                                              & -0,16         & 1,16           \\ \hline
+		\textbf{0,45}                                             & -0,14         & 1,14           \\ \hline
+		\textbf{0,5}                                              & -0,13         & 1,13           \\ \hline
+	\end{tabular}
+\end{table}
+\newpage
+Przedstawione portfele (poza portfelami w tabeli 6.4) uwydatniają problemy założenia o nieskończonym dostępie do kapitału.\cite{simplifiedmarkowitz} Wagi, a przez to pieniądze które powinny zostać zainwestowane w dane aktywa, są na tyle duże że przewyższają dostępny bużet.
+Nauczeni wnioskami z poprzednich operacji, spróbujmy uwydatnić nasz portfel przez lepszy dobór aktywów ryzykownych - tak, aby stworzyć przykład funduszu, który dla różnego współczynnika $k$ oraz zmiany liczonej średniej ceny zamknięcia będzie oferować wciąż racjonalne wagi. Pierwszym krokiem będzie pozbycie sie aktywów będących wartościami odstającymi w portfelu - jest to przytoczona wcześniej \textit{Tesla} oraz \textit{Tilray} (patrz rysunek 6.1). Oprócz tego zdecydowano się zrezygnować z aktywów \textit{British American Tobacco}. Zamiast tego, skorzystano ze aktywów spółek należących do indeksu akcji \textit{Dow Jones} - jest to indeks składający się z trzydziestu wielkich amerykańskich spółek. Wybrano następujące aktywa do portfela:
+
+\begin{itemize}
+	\item \textit{\textbf{Apple (AAPL)}} - amerykańskie przedsiębiorstwo informatyczne z siedzibą w Cupertino w Kalifornii,\cite{apple}
+	\item \textit{\textbf{Microsoft Corporation (MSFT)}} - amerykańskie przedsiębiorstwo informatyczne,\cite{microsoft}
+	\item \textit{\textbf{Coca-Cola Company (KO)}} -  jeden z największych na świecie producentów, dystrybutorów i sprzedawców napojów bezalkoholowych.\cite{coke}
+\end{itemize}
+
+Tak skonstruowany portfel przetestowano podobnie jak w poprzednim przykładzie na różnych stopniach współczynnika $k$, średnich jednodniowych oraz rocznej stopie zwrotu aktywa wolnego od ryzyka $r_f = 0,1\%$.
+Wyniki inwestycji w aktywa ryzykowne przedstawiono w tabeli 6.7, natomiast wagi portfela optymalnego w tabeli 6.8.
+
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag aktywów ryzykownych przy zmiennym współczynniku $k$ oraz $r_f = 0,1\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{FB} & \textbf{NFLX} & \textbf{ADDYY} & \textbf{NOK} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} & \textbf{AAPL} & \textbf{MSFT} & \textbf{KO} \\ \hline
+		\textbf{waga}   & -0.16       & 0.13          & 0.40           & -0.15        & -0.01         & -0.08         & -0.33        & 0.05          & 1.13          & 0.02        \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
+		\textbf{0,05} & 0,42          & 0,58           \\ \hline
+		\textbf{0,1}  & 0,21          & 0,79           \\ \hline
+		\textbf{0,15} & 0,14          & 0,86           \\ \hline
+		\textbf{0,2}  & 0,1           & 0,9            \\ \hline
+		\textbf{0,25} & 0,08          & 0,92           \\ \hline
+		\textbf{0,3}  & 0,07          & 0,93           \\ \hline
+		\textbf{0,35} & 0,06          & 0,94           \\ \hline
+		\textbf{0,4}  & 0,05          & 0,95           \\ \hline
+		\textbf{0,45} & 0,05          & 0,95           \\ \hline
+		\textbf{0,5}  & 0,04          & 0,96           \\ \hline
+	\end{tabular}
+\end{table}
+
+Jak zauważamy, pomimo teoretycznie lepszego doboru spółek do portfela, wciąż borykamy się z realiami - połowa spółek w portfelu aktywów ryzykownych ma wagi ujemne - podjęte zostały próby doboru innych spółek, jednak bez wyraźnie lepszego rezulatu. Wysoka waga aktywów spółki \textit{Microsoft} nie dziwi - na rysunku 6.4 umieszczono ceny akcji z ostatnich 5 lat, gdzie (poza przypadającym na pierwszy kwartał 2020 początkiem pandemii koronawirusa) nie występują drastyczne spadki wartości aktywów, a zauważalny jest stabilny wzrost wartości.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{msftakcje}
+	\caption{Ceny akcji firmy Microsoft(MSFT) w okresie 17.05.2016-17.05.2021,\newline
+		źródło:https://www.bankier.pl/inwestowanie/profile/quote.html?symbol=MSFT}
+\end{figure}
 
 
 \chapter{Wnioski oraz plany rozwoju aplikacji}
 
-W przyszłości planowane jest dodanie do programu możliwości dodania oraz usunięcia spółki w trybie \textit{file-mode}, oraz zaimplementowanie możliwości ukazania wyników w postaci wykresu.
+Portfel Markowitza to narzędzie dobrze sprawdzające się w warunkach teoretycznych, jednak w zderzeniu z rzeczywistością zauważalne są jego ograniczenia, spowodowane założeniami teorii. Wspomniano już o racjonalności inwestorów, nie mającej zawsze przełożenia na realia rynkowe, oraz nielimitowany dostęp do kapitału. Innym ważnym aspektem, który wpływa na działanie portfela jest to, nie istnieje w aktywo całkowicie wolne od ryzyka - przykładowo obligacje skarbu państwa faktycznie są wolne od ryzyka, jednak inflacja oraz zmiana stóp procentowych może wpływać na ich wartość.\cite{hip} Oprócz tego, teoria Markowitza zakłada, że rynek jest doskonale wydajny \cite{markowitz} - jednak jak widzimy rynek jest podatny na różne czynniki z zewnątrz (osobiste, środowiskowe i tym podobne), a nie jedynie na jego cenę historyczną. Powoduje to, że rynek daleki jest od bycia w pełni wydajnym.
+Zauważalna jest potrzeba odpowiedniego doboru aktywów do portfela - korzystając z indeksu \textit{Dow Jones} do doboru spółek, udało się osiągnąć bardziej zadowalające rezultaty jeżeli chodzi o wagi portfela niż przez dodanie spółek według uznania.
+Pomimo wszystkich niedociągnięć narzędzia, trzeba pamiętać że znalazło ono uznanie w świecie finansów i pomimo tego, że zostało sformułowane prawie 60 lat temu, wciąż znajdują się chętni na rozwinięcie idei Harry'ego Markowitza - przykładami są między innymi \textit{Post-Modern Portfolio Theory}, sformułowany przez Briana M. Roma oraz Kathleen Ferguson, opierający się na ryzyku spadku wartości akcji zamiast na średniej wartości zwrotów\cite{pmpt} oraz wspomniany już w tej pracy model wyceny aktywów kapitałowych (\textit{CAPM})\cite{holton}. Jak przyznał sam Harry Markowitz w uwagach do swojej pracy \textit{Portfolio Selection}, "To historia której przeczytałem jedynie pierwszą stronę pierwszego rozdziału"\cite{markowitz}.
+\\
+W sprawie samego programu - jego działanie było jak najbardziej prawidłowe i wystarczające na potrzeby stworzenia tej pracy magisterskiej, jednak istnieją plany rozwoju aplikacji. W następnych wersjach planowane jest:
+\begin{itemize}
+	\item możliwość dodania oraz usunięcia spółki w trybie \textit{file-mode},
+	\item możliwość ukazania wyników w postaci wykresu słupkowego,
+	\item opcja wizualizacji rozkładu zwrotów aktywów ryzykownych w portfelu.
+	\item optymalizacja programu pod kątem szybkości działania (przechowywanie danych zamiast pobierania ich przy każdej operacji przeliczania portfela)
+	\item opcja zapisu wyników portfela optymalnego w przyjaznej użytkownikowi formie do arkusza programu \textit{Microsoft Excel}
+\end{itemize}
 
 \appendixpage
 \appendix
@@ -967,12 +1177,77 @@ W przyszłości planowane jest dodanie do programu możliwości dodania oraz usu
 
 \bibliographystyle{dyplom1}
 
-\begin{thebibliography}{19}
+\begin{thebibliography}{30}
+	\bibitem{hip}
+	B. McClure,
+	\emph{Modern portfolio theory: Why it’s still hip.},
+	Investopedia, 2010
+	
+	\bibitem{pmpt}
+	Brian M. Rom, Kathleen W. Ferguson,
+	\emph{Post-Modern Portfolio Theory Comes of Age},
+	The Journal of Investing, 1993
+
+	\bibitem{determineparameters}
+	Ertugrul Bayraktar, Ayse Humeyra Bilge
+	\emph{Determination the Parameters of Markowitz Portfolio Optimization Model},
+	ArXiv, 2013
+
+	\bibitem{holton}
+	Glyn Holton,
+	\emph{Portfolio Theory}.
+	https://www.glynholton.com/notes/portfolio\_theory/,
+	2013
+
+	\bibitem{zoominvest}
+	\emph{GroupChat Newsletter \#149},\\
+	https://us4.campaign-archive.com/?u=7edf930a619a472beb2d9346\&id=ad40099241
+
+	\bibitem{markowitz}
+	H. Markowitz,
+	\emph{Portfolio Selection},
+	The Journal of Finance 7(1), 1952
+	
+	\bibitem{book}	
+	Michael A. Bean,
+	\emph{Probability: The Science of Uncertainty: with Applications to Investments, Insurance, and Engineering}.
+	American Mathematical Society, 2001
+
+	\bibitem{simplifiedmarkowitz}
+	Myles Mangram,
+	\emph{A Simplified Perspective of the Markowitz Portfolio Theory},
+	Global Journal of Business Research, 2013
+	
+	\bibitem{pythonlist}
+	Python Software Foundation,
+	\emph{Documentation -> The Python Tutorial -> Data Structures}
+	https://docs.python.org/3/tutorial/datastructures.html
+		
+	\bibitem{birdtippett}
+	Ron Bird, Mark Tippett,
+	\emph{Note---Naive Diversification and Portfolio Risk---A Note},
+	Management Science, 1986
+
+	\bibitem{brandsgallagher}
+	Simone Brands, David R. Gallagher,
+	\emph{Portfolio Concentration and Investment Performance},
+	NYU Working Paper No., 2004
+
+	\bibitem{lagrange}
+	Uniwersytet Warszawski,
+	\emph{Ekstrema Warunkowe i Mnożniki Lagrange'a}.
+	http://dydmat.mimuw.edu.pl/analiza-matematyczna-ii/ekstrema-warunkowe-i-mnozniki-lagrangea
+
+	\bibitem{howmanystocks}
+	V. Alexeev, F.Tapon,
+	\emph{Equity Portfolio Diversification: How Many Stocks are Enough? Evidence from Five Developed Markets},
+	Advanced Risk \& Portfolio Management® Research Paper Series, 2012
+
 	\bibitem{wikipage}
 	Wikipedia,
 	\emph{Teoria Portfelowa},
 	https://pl.wikipedia.org/wiki/Teoria\_portfelowa
-
+	
 	\bibitem{random_variable}
 	Wikipedia,
 	\emph{Zmienna losowa},
@@ -982,27 +1257,6 @@ W przyszłości planowane jest dodanie do programu możliwości dodania oraz usu
 	Wikipedia,
 	\emph{Wartość oczekiwana},
 	https://pl.wikipedia.org/wiki/Wartość\_oczekiwana
-	
-	\bibitem{book}	
-	Michael A. Bean,
-	\emph{Probability: The Science of Uncertainty: with Applications to Investments, Insurance, and Engineering}.
-	American Mathematical Society, 2001.
-	
-	\bibitem{holton}
-	Glyn Holton,
-	\emph{Portfolio Theory}.
-	https://www.glynholton.com/notes/portfolio\_theory/,
-	2013
-
-	\bibitem{lagrange}
-	Uniwersytet Warszawski,
-	\emph{Ekstrema Warunkowe i Mnożniki Lagrange'a}.
-	http://dydmat.mimuw.edu.pl/analiza-matematyczna-ii/ekstrema-warunkowe-i-mnozniki-lagrangea
-	
-	\bibitem{pythonlist}
-	Python Software Foundation,
-	\emph{Documentation -> The Python Tutorial -> Data Structures}
-	https://docs.python.org/3/tutorial/datastructures.html
 
 	\bibitem{tesla}
 	Wikipedia,
@@ -1033,7 +1287,7 @@ W przyszłości planowane jest dodanie do programu możliwości dodania oraz usu
 	Wikipedia,
 	\emph{Nokia},
 	https://pl.wikipedia.org/wiki/Nokia
-
+	
 	\bibitem{airbnb}
 	Wikipedia,
 	\emph{Airbnb},	
@@ -1043,12 +1297,26 @@ W przyszłości planowane jest dodanie do programu możliwości dodania oraz usu
 	Wikipedia,
 	\emph{Spotify},
 	https://pl.wikipedia.org/wiki/Spotify
-
+	
 	\bibitem{aig}
 	Wikipedia,
 	\emph{American International Group},\\
 	https://pl.wikipedia.org/wiki/American\_International\_Group
 	
+	\bibitem{apple}
+	Wikipedia,
+	\emph{Apple (przedsiębiorstwo)},\\
+	https://pl.wikipedia.org/wiki/Apple\_(przedsiębiorstwo)
+	
+	\bibitem{microsoft}
+	Wikipedia,
+	\emph{Microsoft},\\
+	https://pl.wikipedia.org/wiki/Microsoft
+	
+	\bibitem{coke}
+	Wikipedia,
+	\emph{The Coca-Cola Company},\\
+	https://pl.wikipedia.org/wiki/The\_Coca-Cola\_Company	
 \end{thebibliography}
 \begin{comment}
 Można więc stworzyć układ równań:
