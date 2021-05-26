@@ -6,6 +6,7 @@
 \usepackage{minted}
 \usepackage{lmodern}
 \usepackage{subfig}
+\usepackage{icomma}
 %%
 \usepackage[toc]{appendix}
 \renewcommand{\appendixtocname}{Dodatki}
@@ -65,7 +66,7 @@ $X_n$ - pojedyncza obserwacja zmiennej\newline
 \item \textit{wariancja} - miara zmienności danych, oznaczana w matematyce przez znak $\sigma^2$. Określa to, jak bardzo wszystkie możliwe wartości zmiennej są rozproszone względem jej \textit{wartości oczekiwanej}. Dla zmiennej losowej X typu skokowego jest opisana przez liczbę:
 
 \begin{equation}
-	D^2(X) = \sum_n(x_n - EX)^2p_n,
+	D^2(X) = \sum_n(x_n - EX)^2p_n.
 \end{equation}
 
 Często używanym estymatorem jest wariancja próbkowa, gdzie wzór przedstawia się następująco:
@@ -104,18 +105,11 @@ gdzie:\\
 $\sigma_X$ - odchylenie standardowe zmiennej losowej X\\
 $\sigma_Y$ - odchylenie standardowe zmiennej losowej Y\\
 
-Interpretacja wartości korelacji przedstawia się następująco:
-\begin{itemize}
-	\item Wartość dodatnia korelacji- dwie zmienne losowe mają tendencję do ruchu w tym samym kierunku (to znaczy - jeżeli jedna z nich rośnie, to druga też),
-	\item Wartość ujemna korelacji - dwie zmienne losowe mają tendencję do ruchu w tym przeciwnym kierunku (to znaczy - jeżeli jedna z nich rośnie, to druga maleje),
-	\item Wartość korelacji to 0 - dwie zmienne losowe są od siebie niezależne.
-\end{itemize}
-
-Im wartość korelacji jest bliższa wartości skrajnej, tym mocniejsze jest oddziaływanie jednej zmiennej na drugą.\\
+Interpretacja wartości korelacji jest taka sama jak dla kowariancji. Im wartość korelacji jest bliższa wartości skrajnej, tym mocniejsze jest oddziaływanie jednej zmiennej na drugą.\\
 
 \item \textit{rozkład prawdopodobieństwa} - jest to przedstawienie możliwych wartości zmiennej oraz tego, jak często mogą one wystąpić. Zbiór możliwych wartości jest opisany przez \textit{X}, a pojedyncza wartość z tego zbioru przez \textit{x}. Najczęściej występującym w przyrodzie rozkładem prawdopodobieństwa jest \textit{rozkład normalny}.\newline
 \newpage
-\item \textit{rozkład normalny prawdopodobieństwa} - najczęściej występujący w przyrodzie rozkład prawdopodobieństwa - wykres jest krzywą w kszatłcie dzwonu, widocznego na rysunku 2.1:
+\item \textit{rozkład normalny prawdopodobieństwa} - najczęściej występujący w przyrodzie rozkład prawdopodobieństwa - wykres jest krzywą w kształcie dzwonu, widocznego na rysunku 2.1:
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{Standard_Normal_Distribution.png}
@@ -154,7 +148,7 @@ Oczekiwany zwrot z portfela po danym okresie będzie wynosić:
 	R = w_1R_1 + w_2R_2,
 \end{equation}
 gdzie $w_n$ - waga aktywa n w portfelu, a $R$ - oczekiwany zwrot z całego portfela.\\
-$R$, podobnie jak $R_1$ oraz $R_2$ jest zmienną losową. Mając na uwadze założenie Markowitza, że zwroty mają rozkład normalny, wspólny rozkład prawdopodobieństwa wszystkich tych zmiennych (tj. $R$, $R_1$, $R_2$) jest dwuwymiarowym rozkładem normalnym - stąd są one całkowicie scharakteryzowane przez swoje wartości średniej ($\mu_n$) i odchylenia standardowego ($\sigma_n$). W takim przypadku wzór na oczekiwaną stopę zwrotu aktywów $S_1$ oraz $S_2$ opisuje równanie 3.2, a wariancję równanie 3.3:
+$R$, podobnie jak $R_1$ oraz $R_2$ jest zmienną losową. Mając na uwadze założenie Markowitza, że zwroty mają rozkład normalny, wspólny rozkład prawdopodobieństwa wszystkich tych zmiennych (tj. $R_1$ i $R_2$) jest dwuwymiarowym rozkładem normalnym - stąd są one całkowicie scharakteryzowane przez swoje wartości średniej ($\mu_n$) i odchylenia standardowego ($\sigma_n$). W takim przypadku wzór na oczekiwaną stopę zwrotu aktywów $S_1$ oraz $S_2$ opisuje równanie 3.2, a wariancję równanie 3.3:
 
 \begin{equation}
 	\mu = w_1\mu_1 + w_2\mu_2,
@@ -286,7 +280,7 @@ Odchylenie standardowe tego portfela obliczamy, podstawiając znalezione $\mu^*$
 \begin{equation}
 	\sigma^* = \sqrt{{\sigma_0}^2+\frac{1}{4Ak^2}}.
 \end{equation}
-Wyliczony z równań 3.20 i 3.21 punkt $(\sigma^*, \mu^* )$ stanowi punkt portfela optymalnego danego inwestora. Wagi poszczególnych aktywów dla tego portfela wyznacza się w analogiczny sposób, jak w sekcji 3.2 (korzystając z równania 3.8), oczywiście za $\mu$ przyjmując oczekiwany zwrot portfela optymalnego, czyli $\mu^*$.
+Wyliczony z równań 3.20 i 3.21 punkt $(\sigma^*, \mu^* )$ stanowi punkt portfela optymalnego danego inwestora. Wagi poszczególnych aktywów dla tego portfela wyznacza się w analogiczny sposób, jak w sekcji 3.2 (korzystając z równania 3.9), oczywiście za $\mu$ przyjmując oczekiwany zwrot portfela optymalnego, czyli $\mu^*$.
 
 \section{Portfele wydajne dla aktywa wolnego od ryzyka i jednego aktywa ryzykownego}
 W portfelu może znajdować się \textit{aktywo wolne od ryzyka}. Jest to takie aktywo, którego stopa zwrotu przyjmuje jedną wartość z prawdopodobieństwem równym 1, a więc jego wariancja wynosi 0. Inwestor wybiera tylko jedno aktywo wolne od ryzyka, gdyż z założenia Markowitza o jego racjonalności, będzie wybierać te o najwyższej stopie zwrotu. Jak będzie wyglądać portfel wydajny zawierający takie aktywo? Załóżmy, że mamy portfel z dwoma aktywami, $S_1$ oraz $S_2$, gdzie $S_1$ jest aktywem ryzykownym, a $S_2$ wolnym od ryzyka. $R_1$ oraz $R_2$ to zmienne losowe opisujące stopę zwrotu z inwestycji w te aktywa, i są one opisane przez ich odchylenia standardowe $\sigma_1$ i $\sigma_2 = 0$ oraz wartości średnie $\mu_1$ i $r_f$. Znając wzór na odchylenie standardowe portfela (równanie 3.6) znajdźmy równanie opisujące oczekiwany zwrot z opisywanego portfela:
@@ -704,7 +698,7 @@ Wprowadzony portfel możemy zapisać do pliku, aby móc z niego korzystać przy 
 \end{figure}
 \newpage
 \section{main.py - opis funkcjonalności}
-Jest to plik za pomocą którego uruchamiany jest program, zawiera ona import zewnętrznej biblioteki \code{argparse}, wewnętrznej \code{functions} oraz jedną funkcję - \code{main} - przedstawioną na rysunku 5.13.
+Jest to plik za pomocą którego uruchamiany jest program, zawiera on import zewnętrznej biblioteki \code{argparse}, wewnętrznej \code{functions} oraz jedną funkcję - \code{main} - przedstawioną na rysunku 5.13.
 
 \begin{figure}[ht]
 	\centering
@@ -925,7 +919,7 @@ Funkcja \code{save\_wallet\_to\_file} umożliwia zapis aktualnie otwartego portf
 \end{figure}
 \chapter{Ocena działania programu}
 
-W tym rozdziale stworzony zostanie portfel zawierający aktywa ryzykowne oraz jedno aktywo wolne od ryzyka. Nie jest jasno określone ile aktywów ryzykownych powinno się posiadać w portfelu dla efektywnej dywersyfikacji. Istnieją artyuły naukowe o tym że liczba ta powinna przekraczać 50 - jednak takie portfele są kosztowne i trudne do utrzymania przez przeciętnego inwestora, gdyż każda operacja kupna oraz sprzedaży wiąże się z pewnym kosztem. Z drugiej strony, znajdziemy artykuły o tym, że znaczne profity z dywersyfikacji możemy osiągać już przy 6-15 aktywach (przykłady:Ron Bird oraz Mark Tippet w swojej pracy \textit{Note---Naive Diversification and Portfolio Risk---A Note} proponowali liczbę 10-15 aktywów \cite{birdtippett}, natomiast Simone Brands oraz David R. Gallagher - 6 aktywów - jednak warto dodać że badanie wykonywano jedynie biorąc pod uwagę rynek australijski\cite{brandsgallagher})\cite{howmanystocks}. Stąd przystaniemy przy liczbie dziesięciu aktywów ryzykownych w portfelu.
+W tym rozdziale stworzony zostanie portfel zawierający aktywa ryzykowne oraz jedno aktywo wolne od ryzyka. Nie jest jasno określone ile aktywów ryzykownych powinno się posiadać w portfelu dla efektywnej dywersyfikacji. Istnieją artykuły naukowe o tym że liczba ta powinna przekraczać 50, jednak takie portfele są kosztowne i trudne do utrzymania przez przeciętnego inwestora, gdyż każda operacja kupna oraz sprzedaży wiąże się z pewnym kosztem. Z drugiej strony, znajdziemy artykuły o tym, że znaczne profity z dywersyfikacji możemy osiągać już przy 6-15 aktywach (przykłady:Ron Bird oraz Mark Tippet w swojej pracy \textit{Note---Naive Diversification and Portfolio Risk---A Note} proponowali liczbę 10-15 aktywów \cite{birdtippett}, natomiast Simone Brands oraz David R. Gallagher - 6 aktywów - jednak warto dodać że badanie wykonywano jedynie biorąc pod uwagę rynek australijski\cite{brandsgallagher})\cite{howmanystocks}. Stąd przystaniemy przy liczbie dziesięciu aktywów ryzykownych w portfelu.
 
 Za pomocą zmiany danych w portfelu takich jak:
 
@@ -934,7 +928,7 @@ Za pomocą zmiany danych w portfelu takich jak:
 	\item średnia cena zamknięcie liczona z \textit{n} dni,
 	\item ewentualna zmiana aktywa ryzykownego,
 \end{itemize}
-stworzymy kilka portfeli - wyniki zostaną przedstawione w tabelach oraz omówione. Portfele zostaną stworzone w programie działającym w trybie \textit{API}.
+stworzymy kilka wersji portfela - wyniki zostaną przedstawione w tabelach oraz omówione. Portfele zostaną stworzone w programie działającym w trybie \textit{API}.
 Na początek pokrótce przedstawmy aktywa ryzykowne, które będą znajdować się w portfelu - w nawiasach znajdują się symbole, pod którymi można znaleźć te aktywa na stronie \textit{Yahoo Finance} i w takiej formie aktywa te będą przedstawiane w tabelach:
 
 \begin{itemize}
@@ -950,15 +944,25 @@ Na początek pokrótce przedstawmy aktywa ryzykowne, które będą znajdować si
 	\item \textit{\textbf{American International Group, Inc. (AIG)}} - jedno z największych na świecie przedsiębiorstw ubezpieczeniowych\cite{aig}.
 \end{itemize}
 
-Na początek sprawdźmy, jak portfel zachowuje się dla rocznej stopy zwrotu aktywa wolnego od ryzyka $r_f = 2\%$, średniej ceny zamknięcia liczonej z jednego dnia oraz zmiennego współczynnika $k$ awersji do ryzyka inwestora. Wykres oczekiwanego zwrotu i odchylenia standardowego aktywów ryzykownych w takim przypadku przedstawiono na rysunku 6.1.
-Zauważamy, że wartością mocno odstającą swoim oczekiwanym zwrotem jak i odchyleniem standardowym jest aktywo ryzykowne spółki \textit{Tesla}, inną wartością jednak mniej wyróżniającą się jest aktywo \textit{Tilray}.
-Następnie obliczono wagi aktywów w portfelu optymalnym inwestora. Wyniki zapisano w tabeli 6.1.\newline
+Na początek sprawdźmy, jak portfel zawierający wymienione aktywa ryzykowne zachowuje się dla rocznej stopy zwrotu aktywa wolnego od ryzyka $r_f = 2\%$, średniej ceny zamknięcia liczonej z jednego dnia oraz zmieniającego się współczynnika $k$ awersji do ryzyka inwestora. Wykres oczekiwanego zwrotu i odchylenia standardowego aktywów ryzykownych dla takiego przypadku przedstawiono na rysunku 6.1.
+Zauważmy, że wartością mocno odstającą swoim oczekiwanym zwrotem jak i odchyleniem standardowym jest aktywo ryzykowne spółki \textit{Tesla}, inną wartością jednak mniej wyróżniającą się jest aktywo \textit{Tilray}.
+Następnie za pomocą programu otrzymano wagi portfela styczności oraz wagi aktywów w portfelu optymalnym inwestora. Wyniki zapisano w tabelach 6.1 oraz 6.2.\newline
 Legenda do tabel:\\
 $w_T$ - waga portfela styczności (aktywów ryzykownych) w portfelu optymalnym\\
 $w_{r_f}$ - waga aktywa wolnego od ryzyka w portfelu optymalnym\\
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 500 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & 0.12       & 0.22          & 0.58           & -0.11        & -0.01         & 0.01         & 0.14        & -0.06          & 0.30          & -0.19        \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 500 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
@@ -981,45 +985,65 @@ $w_{r_f}$ - waga aktywa wolnego od ryzyka w portfelu optymalnym\\
 	\caption{Wykres oczekwianych zwrotów i odchylenia standardowego aktywów ryzykownych rozpatrywanego portfela}
 \end{figure}
 \newpage
-Jak zauważamy, już dla wartości współczynnika $k$ na poziomie wartości $0,5$ program sugeruje minimalny wkład pieniężny w aktywa ryzykowne - dzieje się tak dlatego, że wprowadzone przez nas aktywo wolne od ryzyka oferuje stosunkowo wysoki zwrot przy zerowym ryzyku w porównaniu do aktywów ryzykownych (portfel aktywów ryzykownych oferuje oczekiwany zwrot $\mu \approx 26\%$ przy odchyleniu standardowym wynoszącym $\sigma \approx 289\%$) - nawet dla skłonnego do racjonalnego ryzyka inwestora (portfel dla $k = 0,05$) inwestycja w aktywa ryzykowne to tylko 30 procent jego budżetu. Nie będziemy sprawdzać przypadków dla różnej stopy do ryzyka - zmiany w ujęciu dziennym są na tyle niskie, że nie wprowadzają zmiany w obiczanych wagach portfela do drugiego miejsca po przecinku. Sprawdźmy, jak portfel będzie się zachowywać dla liczonej średniej ceny zamknięcia dla średniej tygodniowej oraz miesięcznej. Wyniki dla tak skonstruowanych portfeli przedstawiono w tabelach 6.2 oraz 6.3.
+Jak zauważamy, już dla wartości współczynnika $k$ na poziomie wartości $0,5$ program sugeruje minimalny wkład pieniężny w aktywa ryzykowne - dzieje się tak dlatego, że wprowadzone przez nas aktywo wolne od ryzyka oferuje stosunkowo wysoki zwrot przy zerowym ryzyku w porównaniu do aktywów ryzykownych (portfel aktywów ryzykownych oferuje oczekiwany zwrot $\mu \approx 26\%$ przy odchyleniu standardowym wynoszącym $\sigma \approx 289\%$) - nawet dla skłonnego do racjonalnego ryzyka inwestora (portfel dla $k = 0,05$) inwestycja w aktywa ryzykowne to tylko 30 procent jego budżetu. Nie będziemy sprawdzać przypadków dla różnej stopy do ryzyka - zmiany w ujęciu dziennym są na tyle niskie, że nie wprowadzają zmiany w obliczanych wagach portfela do drugiego miejsca po przecinku. Sprawdźmy, jak portfel będzie się zachowywać dla liczonej średniej ceny zamknięcia dla średniej tygodniowej oraz miesięcznej. Wyniki dla tak skonstruowanych portfeli przedstawiono w tabelach 6.3, 6.4, 6.5 oraz 6.6.
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 500 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & -1.51       & 0.50          & -0.75           & 0.51        & 0.06         & -0.36         & 0.47        & 1.51          & 0.03          & 1.48        \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 500 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
 		\textbf{0,05}                                             & -0,42         & 1,42           \\ \hline
-		\textbf{0,1}                                              & -0,21         & 1,21           \\ \hline
+		\textbf{0,10}                                             & -0,21         & 1,21           \\ \hline
 		\textbf{0,15}                                             & -0,14         & 1,14           \\ \hline
-		\textbf{0,2}                                              & -0,1          & 1,1            \\ \hline
+		\textbf{0,20}                                             & -0,10         & 1,10           \\ \hline
 		\textbf{0,25}                                             & -0,08         & 1,08           \\ \hline
-		\textbf{0,3}                                              & -0,06         & 1,06           \\ \hline
+		\textbf{0,30}                                             & -0,06         & 1,06           \\ \hline
 		\textbf{0,35}                                             & -0,06         & 1,06           \\ \hline
-		\textbf{0,4}                                              & -0,05         & 1,05           \\ \hline
+		\textbf{0,40}                                             & -0,05         & 1,05           \\ \hline
 		\textbf{0,45}                                             & -0,05         & 1,05           \\ \hline
-		\textbf{0,5}                                              & -0,04         & 1,04           \\ \hline
+		\textbf{0,50}                                             & -0,04         & 1,04           \\ \hline
 	\end{tabular}
 \end{table}
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 500 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 500 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & 0.35       & 0.46          & 0.60           & -1.17        & -0.20         & 0.32         & 0.57        & 0.81          & -0.07          & -0.65        \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 500 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
 		\textbf{0,05}                                             & 0,22          & 0,78           \\ \hline
-		\textbf{0,1}                                              & 0,11          & 0,89           \\ \hline
+		\textbf{0,10}                                             & 0,11          & 0,89           \\ \hline
 		\textbf{0,15}                                             & 0,07          & 0,93           \\ \hline
-		\textbf{0,2}                                              & 0,06          & 0,94           \\ \hline
+		\textbf{0,20}                                             & 0,06          & 0,94           \\ \hline
 		\textbf{0,25}                                             & 0,04          & 0,96           \\ \hline
-		\textbf{0,3}                                              & 0,04          & 0,96           \\ \hline
+		\textbf{0,30}                                             & 0,04          & 0,96           \\ \hline
 		\textbf{0,35}                                             & 0,03          & 0,97           \\ \hline
-		\textbf{0,4}                                              & 0,03          & 0,97           \\ \hline
+		\textbf{0,40}                                             & 0,03          & 0,97           \\ \hline
 		\textbf{0,45}                                             & 0,02          & 0,98           \\ \hline
-		\textbf{0,5}                                              & 0,02          & 0,98           \\ \hline
+		\textbf{0,50}                                             & 0,02          & 0,98           \\ \hline
 	\end{tabular}
 \end{table}
 \newpage
-Wyniki (choć w każdym przypadku przeważające na korzyść aktywa wolnego od ryzyka) są dość rozbieżne, mimo tego że rozpatrujemy wciąż portfel tych samych aktywów ryzykownych. Według Markowitza, zwroty aktywów powinny mieć rozkład normalny - sprawdźmy, jak wyglądają dystrybucje zwrotów wybranych przez nas spółek - wynik przedstawiono na rysunku 6.2.
+\textcolor{white}{.}
+\newpage
+Wyniki (choć w każdym przypadku przeważające na korzyść aktywa wolnego od ryzyka) są dość rozbieżne, mimo tego że rozpatrujemy wciąż portfel tych samych aktywów ryzykownych. Według Markowitza, zwroty aktywów powinny mieć rozkład normalny - sprawdźmy, jak wyglądają rozkłady zwrotów wybranych przez nas spółek - wynik przedstawiono na rysunku 6.2.
 
 \begin{figure}[ht]
 	\centering
@@ -1035,66 +1059,92 @@ Na otrzymanym wykresie możemy zauważyć charakterystyczny "dzwon" w okolicy wa
 	\caption{Graficzny opis sytuacji spółek \textit{Zoom} oraz \textit{Zoom Technologies} z pierwszego kwartału 2020 roku. Źródło:\cite{zoominvest}}
 \end{figure}
 \newpage
-Aby lepiej pokazać narażenie rynku na zmiany, zmieńmy liczbę dni z których pobierane są dane do 1000, następnie przeliczmy ponownie wagi portfela optymalnego dla zmiennego współczynnika $k$, $r_f = 2\%$ i średnich dziennych, tygodniowych oraz miesięcznych. Wyniki przedstawiono w tabelach 6.4, 6.5 oraz 6.6.
-
+Aby lepiej pokazać narażenie rynku na zmiany, zmieńmy liczbę dni z których pobierane są dane do 1000, następnie przeliczmy ponownie wagi portfela optymalnego dla zmieniającego się współczynnika $k$, $r_f = 2\%$ i średnich dziennych, tygodniowych oraz miesięcznych. Wyniki przedstawiono w tabelach od 6.7 do 6.12.
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & 0.15       & -0.90          & 0.46           & 0.63        & -0.02         & 0.18         & 1.00        & -0.13          & 0.06          & -0.43        \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
 		\textbf{0,05}                                             & 0,23          & 0,77           \\ \hline
-		\textbf{0,1}                                              & 0,11          & 0,89           \\ \hline
+		\textbf{0,10}                                             & 0,11          & 0,89           \\ \hline
 		\textbf{0,15}                                             & 0,08          & 0,92           \\ \hline
-		\textbf{0,2}                                              & 0,06          & 0,94           \\ \hline
+		\textbf{0,20}                                             & 0,06          & 0,94           \\ \hline
 		\textbf{0,25}                                             & 0,05          & 0,95           \\ \hline
-		\textbf{0,3}                                              & 0,04          & 0,96           \\ \hline
+		\textbf{0,30}                                             & 0,04          & 0,96           \\ \hline
 		\textbf{0,35}                                             & 0,03          & 0,97           \\ \hline
-		\textbf{0,4}                                              & 0,03          & 0,97           \\ \hline
+		\textbf{0,40}                                             & 0,03          & 0,97           \\ \hline
 		\textbf{0,45}                                             & 0,03          & 0,97           \\ \hline
-		\textbf{0,5}                                              & 0,02          & 0,98           \\ \hline
+		\textbf{0,50}                                             & 0,02          & 0,98           \\ \hline
 	\end{tabular}
 \end{table}
-\newpage
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 1000 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & -0.30       & 0.35          & 0.12           & -0.19        & 0.19         & -0.26         & -0.29        & 0.80          & -0.14          & 0.71        \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich tygodniowych dla danych z 1000 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
-		\textbf{0,05}                                             & -2,41         & 3,41           \\ \hline
-		\textbf{0,1}                                              & -1,21         & 2,21           \\ \hline
-		\textbf{0,15}                                             & -0,8          & 1,8            \\ \hline
-		\textbf{0,2}                                              & -0,6          & 1,6            \\ \hline
-		\textbf{0,25}                                             & -0,48         & 1,48           \\ \hline
-		\textbf{0,3}                                              & -0,4          & 1,4            \\ \hline
-		\textbf{0,35}                                             & -0,34         & 1,34           \\ \hline
-		\textbf{0,4}                                              & -0,3          & 1,3            \\ \hline
-		\textbf{0,45}                                             & -0,27         & 1,27           \\ \hline
-		\textbf{0,5}                                              & -0,24         & 1,24           \\ \hline
+		\textbf{0,05}                                             & -2,41         & 3,41            \\ \hline
+		\textbf{0,10}                                             & -1,21         & 2,21            \\ \hline
+		\textbf{0,15}                                             & -0,80         & 1,80            \\ \hline
+		\textbf{0,20}                                             & -0,60         & 1,60            \\ \hline
+		\textbf{0,25}                                             & -0,48         & 1,48            \\ \hline
+		\textbf{0,30}                                             & -0,40         & 1,40            \\ \hline
+		\textbf{0,35}                                             & -0,34         & 1,34            \\ \hline
+		\textbf{0,40}                                             & -0,30         & 1,30            \\ \hline
+		\textbf{0,45}                                             & -0,27         & 1,27            \\ \hline
+		\textbf{0,50}                                             & -0,24         & 1,24            \\ \hline
 	\end{tabular}
 \end{table}
-
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 1000 dni}
+	\caption{Wartości wag aktywów ryzykownych w portfelu styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 1000 dni}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{symbol} & \textbf{TSLA} & \textbf{BTI} & \textbf{FB} & \textbf{NFLX} & \textbf{NOK} & \textbf{TLRY} & \textbf{ADDYY} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} \\ \hline
+		\textbf{waga}   & 0.05       & 0.14          & 0.31           & 0.00        & 0.35         & -0.04         & 0.40        & 0.32          & -0.17          & -0.38        \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\centering
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich miesięcznych dla danych z 1000 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
 		\textbf{0,05}                                             & -1,29         & 1,29           \\ \hline
-		\textbf{0,1}                                              & -0,65         & 1,65           \\ \hline
+		\textbf{0,10}                                             & -0,65         & 1,65           \\ \hline
 		\textbf{0,15}                                             & -0,43         & 1,43           \\ \hline
-		\textbf{0,2}                                              & -0,32         & 1,32           \\ \hline
+		\textbf{0,20}                                             & -0,32         & 1,32           \\ \hline
 		\textbf{0,25}                                             & -0,26         & 1,26           \\ \hline
-		\textbf{0,3}                                              & -0,22         & 1,22           \\ \hline
+		\textbf{0,30}                                             & -0,22         & 1,22           \\ \hline
 		\textbf{0,35}                                             & -0,18         & 1,18           \\ \hline
-		\textbf{0,4}                                              & -0,16         & 1,16           \\ \hline
+		\textbf{0,40}                                             & -0,16         & 1,16           \\ \hline
 		\textbf{0,45}                                             & -0,14         & 1,14           \\ \hline
-		\textbf{0,5}                                              & -0,13         & 1,13           \\ \hline
+		\textbf{0,50}                                             & -0,13         & 1,13           \\ \hline
 	\end{tabular}
 \end{table}
 \newpage
-Przedstawione portfele (poza portfelami w tabeli 6.4) uwydatniają problemy założenia o nieskończonym dostępie do kapitału.\cite{simplifiedmarkowitz} Wagi, a przez to pieniądze które powinny zostać zainwestowane w dane aktywa, są na tyle duże że przewyższają dostępny bużet.
+\textcolor{white}{.}
+\newpage
+Przedstawione portfele (poza portfelami w tabeli 6.8) uwydatniają problemy założenia o nieskończonym dostępie do kapitału.\cite{simplifiedmarkowitz} Wagi, a przez to pieniądze które powinny zostać zainwestowane w dane aktywa, są na tyle duże że przewyższają dostępny bużet.
 Nauczeni wnioskami z poprzednich operacji, spróbujmy uwydatnić nasz portfel przez lepszy dobór aktywów ryzykownych - tak, aby stworzyć przykład funduszu, który dla różnego współczynnika $k$ oraz zmiany liczonej średniej ceny zamknięcia będzie oferować wciąż racjonalne wagi. Pierwszym krokiem będzie pozbycie sie aktywów będących wartościami odstającymi w portfelu - jest to przytoczona wcześniej \textit{Tesla} oraz \textit{Tilray} (patrz rysunek 6.1). Oprócz tego zdecydowano się zrezygnować z aktywów \textit{British American Tobacco}. Zamiast tego, skorzystano ze aktywów spółek należących do indeksu akcji \textit{Dow Jones} - jest to indeks składający się z trzydziestu wielkich amerykańskich spółek. Wybrano następujące aktywa do portfela:
 
 \begin{itemize}
@@ -1104,11 +1154,11 @@ Nauczeni wnioskami z poprzednich operacji, spróbujmy uwydatnić nasz portfel pr
 \end{itemize}
 
 Tak skonstruowany portfel przetestowano podobnie jak w poprzednim przykładzie na różnych stopniach współczynnika $k$, średnich jednodniowych oraz rocznej stopie zwrotu aktywa wolnego od ryzyka $r_f = 0,1\%$.
-Wyniki inwestycji w aktywa ryzykowne przedstawiono w tabeli 6.7, natomiast wagi portfela optymalnego w tabeli 6.8.
+Wyniki inwestycji w aktywa ryzykowne (wagi portfela styczności) przedstawiono w tabeli 6.13, natomiast wagi portfela optymalnego w tabeli 6.14.
 
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag aktywów ryzykownych przy zmiennym współczynniku $k$ oraz $r_f = 0,1\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\caption{Wartości wag portfela styczności przy zmieniającym się współczynniku $k$ oraz $r_f = 0,1\%$ i średnich jednodniowych dla danych z 1000 dni}
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
 		\hline
 		\textbf{symbol} & \textbf{FB} & \textbf{NFLX} & \textbf{ADDYY} & \textbf{NOK} & \textbf{ABNB} & \textbf{SPOT} & \textbf{AIG} & \textbf{AAPL} & \textbf{MSFT} & \textbf{KO} \\ \hline
@@ -1118,23 +1168,23 @@ Wyniki inwestycji w aktywa ryzykowne przedstawiono w tabeli 6.7, natomiast wagi 
 
 \begin{table}[ht]
 	\centering
-	\caption{Wartości wag portfela optymalnego przy zmiennym współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
+	\caption{Wartości wag portfela optymalnego przy zmieniającym się współczynniku $k$ oraz $r_f = 2\%$ i średnich jednodniowych dla danych z 1000 dni}
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{$k$} & \textbf{$w_T$} & \textbf{$w_{r_f}$} \\ \hline
 		\textbf{0,05} & 0,42          & 0,58           \\ \hline
-		\textbf{0,1}  & 0,21          & 0,79           \\ \hline
+		\textbf{0,10} & 0,21          & 0,79           \\ \hline
 		\textbf{0,15} & 0,14          & 0,86           \\ \hline
-		\textbf{0,2}  & 0,1           & 0,9            \\ \hline
+		\textbf{0,20} & 0,10          & 0,90           \\ \hline
 		\textbf{0,25} & 0,08          & 0,92           \\ \hline
-		\textbf{0,3}  & 0,07          & 0,93           \\ \hline
+		\textbf{0,30} & 0,07          & 0,93           \\ \hline
 		\textbf{0,35} & 0,06          & 0,94           \\ \hline
-		\textbf{0,4}  & 0,05          & 0,95           \\ \hline
+		\textbf{0,40} & 0,05          & 0,95           \\ \hline
 		\textbf{0,45} & 0,05          & 0,95           \\ \hline
-		\textbf{0,5}  & 0,04          & 0,96           \\ \hline
+		\textbf{0,50} & 0,04          & 0,96           \\ \hline
 	\end{tabular}
 \end{table}
-
+\newpage
 Jak zauważamy, pomimo teoretycznie lepszego doboru spółek do portfela, wciąż borykamy się z realiami - połowa spółek w portfelu aktywów ryzykownych ma wagi ujemne - podjęte zostały próby doboru innych spółek, jednak bez wyraźnie lepszego rezulatu. Wysoka waga aktywów spółki \textit{Microsoft} nie dziwi - na rysunku 6.4 umieszczono ceny akcji z ostatnich 5 lat, gdzie (poza przypadającym na pierwszy kwartał 2020 początkiem pandemii koronawirusa) nie występują drastyczne spadki wartości aktywów, a zauważalny jest stabilny wzrost wartości.
 
 \begin{figure}[ht]
