@@ -61,10 +61,12 @@ class Interface():
         if args.file:
             self.file_mode_on = True
             self.file_name = args.file
-        self.main_menu()
         if self.file_mode_on:
+            log.info(f'File mode turned on, loading data from {self.file_name}')
+            self.load_stocks_info_from_file()
             self.wallet_menu_file_mode()
         else:
+            self.main_menu()
             self.wallet_menu_api()
 
     def load_stocks_info_from_file(self):
@@ -306,11 +308,6 @@ class Interface():
 
     def main_menu(self):
         log.info('Welcome to the-wallet - Markowitz Portfolio tool')
-
-        if self.file_mode_on:
-            log.info(f'File mode turned on, loading data from {self.file_name}')
-            self.load_stocks_info_from_file()
-            return
 
         main_menu = {}
         main_menu['1'] = 'Open existing wallet'
